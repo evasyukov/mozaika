@@ -1,0 +1,28 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    /* font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; */
+
+    margin: 0;
+
+    background-color: #0f1115;
+    color: #e6e6e6;
+    /* line-height: 1.5; */
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+}
+
+/* a {
+    color: #000;
+    text-decoration: none;
+} */
