@@ -1,2 +1,4 @@
 export * from "./header/Header"
-
+export * from "./input/Input"
+export * from "./H2/H2"
+export * from "./auth-form-error/AuthFormError"
