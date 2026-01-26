@@ -1,10 +1,19 @@
 import { Routes, Route } from "react-router-dom"
+import { useSelector } from "react-redux"
 import styled from "styled-components"
 
 import { Header } from "./components"
 import { Authorization, Registrarion } from "./pages"
+import { useInitAuth } from "./hooks"
+import { selectIsAuthInitialized } from "./selectors"
 
 export default function Mozaika() {
+  useInitAuth()
+  const isInitialized = useSelector(selectIsAuthInitialized)
+
+  if (!isInitialized) {
+    return null
+  }
   return (
     <>
       <Header />

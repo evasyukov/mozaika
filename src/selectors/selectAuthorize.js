@@ -1,0 +1,3 @@
+export const selectAuthStatus = (state) => state.auth.status
+export const selectAuthError = (state) => state.auth.error
+export const selectIsAuthInitialized = state => state.auth.isInitialized

@@ -1,0 +1,27 @@
+{
+  "users": [
+    {
+      "id": "001",
+      "login": "admin",
+      "password": "admin",
+      "registed_at": "2023-01-01",
+      "role_id": 0
+    }
+  ],
+  "roles": [
+    {
+      "id": 0,
+      "name": "Администратор"
+    },
+    {
+      "id": 1,
+      "name": "Пользователь"
+    },
+    {
+      "id": 2,
+      "name": "Гость"
+    }
+  ],
+  "projects": [],
+  "sessions": []
+}

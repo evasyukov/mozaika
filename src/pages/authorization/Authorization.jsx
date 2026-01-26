@@ -1,10 +1,20 @@
 import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
+import { useSelector, useDispatch } from "react-redux"
+import { Navigate } from "react-router-dom"
+
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import styled from "styled-components"
 
 import { H2, Input, AuthFormError } from "../../components"
+import { authorizeUser } from "../../slices/authSlice"
+import {
+  selectAuthError,
+  selectAuthStatus,
+  selectUserRole,
+} from "../../selectors"
+import { ROLE } from "../../constants"
 
 const authFormSchema = yup.object().shape({
   login: yup
@@ -37,13 +47,23 @@ function AuthorizationContainer({ className }) {
     resolver: yupResolver(authFormSchema),
   })
 
+  const dispatch = useDispatch()
+  const roleId = useSelector(selectUserRole)
+  const status = useSelector(selectAuthStatus)
+  const serverError = useSelector(selectAuthError)
+
   function onSubmit({ login, password }) {
-    console.log("Форма валидна, данные:", login, password)
+    dispatch(authorizeUser({ login, password }))
   }
 
   const formError = errors?.login?.message || errors?.password?.message
 
-  const errorMessage = formError
+  const errorMessage = formError || serverError
+
+  // if (roleId !== ROLE.GUEST) return <Navigate to="/" />
+  if (roleId !== ROLE.GUEST) return console.log("авторизовано")
+
+  console.log(roleId)
 
   return (
     <div className={className}>
@@ -63,7 +83,12 @@ function AuthorizationContainer({ className }) {
           {...register("password")}
         />
 
-        <button className="auth-submit">Войти</button>
+        <button
+          className="auth-submit"
+          disabled={!!formError || status === "loading"}
+        >
+          {status === "loading" ? "Загрузка..." : "Авторизоваться"}
+        </button>
 
         <Link to="/register" className="link">
           Зарегистрироваться

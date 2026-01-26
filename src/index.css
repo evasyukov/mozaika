@@ -2,6 +2,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
+    /* & ::selection {
+        background-color: #585ec7;
+        color: #0f1115;
+    } */
 }
 
 body {

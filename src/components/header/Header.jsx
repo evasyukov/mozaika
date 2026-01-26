@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
 import styled from "styled-components"
 
+import { selectUserRole } from "../../selectors"
+import { ROLE } from "../../constants"
+
 function HeaderContainer({ className }) {
-  const roleId = false
+  const roleId = useSelector(selectUserRole)
 
   return (
     <header className={className}>
       <div className="header-content">
-        
         <div className="logo">
           <span className="logo-text">
             <Link to="/">Мозаика</Link>
@@ -22,7 +25,7 @@ function HeaderContainer({ className }) {
         </span>
 
         <div className="auth-button">
-          {roleId ? (
+          {roleId !== ROLE.GUEST ? (
             <Link to="/profile">Профиль</Link>
           ) : (
             <Link to="/authorization">Авторизация</Link>
