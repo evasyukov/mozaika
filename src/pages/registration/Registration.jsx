@@ -1,10 +1,20 @@
 import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
+import { useSelector, useDispatch } from "react-redux"
+import { Navigate } from "react-router-dom"
+
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import styled from "styled-components"
 
-import { H2, Input, AuthFormError } from "../../components"
+import { H2, Input, AuthFormError, Button } from "../../components"
+import { registerUser } from "../../slices/auth/authThunk"
+import {
+  selectAuthError,
+  selectAuthStatus,
+  selectUserRole,
+} from "../../selectors"
+import { ROLE } from "../../constants"
 
 const authFormSchema = yup.object().shape({
   login: yup
@@ -45,8 +55,13 @@ function RegistrarionContainer({ className }) {
     resolver: yupResolver(authFormSchema),
   })
 
+  const dispatch = useDispatch()
+  const roleId = useSelector(selectUserRole)
+  const status = useSelector(selectAuthStatus)
+  const serverError = useSelector(selectAuthError)
+
   function onSubmit({ login, password }) {
-    console.log("Форма валидна, данные:", login, password)
+    dispatch(registerUser({ login, password }))
   }
 
   const formError =
@@ -54,7 +69,9 @@ function RegistrarionContainer({ className }) {
     errors?.password?.message ||
     errors?.passcheck?.message
 
-  const errorMessage = formError
+  const errorMessage = formError || serverError
+
+  if (roleId !== ROLE.GUEST) return <Navigate to="/" />
 
   return (
     <div className={className}>
@@ -69,18 +86,21 @@ function RegistrarionContainer({ className }) {
         />
         <Input
           type="password"
-          placeholder="••••••••"
+          placeholder="• • • • • • • •"
           title="Пароль"
           {...register("password")}
         />
         <Input
           type="password"
-          placeholder="Введите пароль повторно"
+          placeholder="• • • • • • • •"
           title="Введите пароль повторно"
           {...register("passcheck")}
         />
 
-        <button className="auth-submit">Зарегистрироваться</button>
+        <Button formError={formError} status={status}>
+          {status === "loading" ? "Загрузка..." : "Зарегистрироваться"}
+        </Button>
+
         {errorMessage && <AuthFormError>{errorMessage}</AuthFormError>}
       </form>
     </div>
@@ -118,16 +138,5 @@ export const Registrarion = styled(RegistrarionContainer)`
 
   .auth-submit:hover {
     background-color: #8b8bff;
-  }
-
-  .link {
-    text-align: center;
-    color: #7c7cff;
-    text-decoration: none;
-    font-size: 16px;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 `

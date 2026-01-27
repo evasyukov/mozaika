@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux"
 import { useEffect } from "react"
 
-import { setUserFromStorage, setAuthInitialized } from "../slices/authSlice"
+import { setUserFromStorage, setAuthInitialized } from "../slices/auth/authSlice"
 
 export function useInitAuth() {
   const dispatch = useDispatch()

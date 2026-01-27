@@ -7,8 +7,8 @@ import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import styled from "styled-components"
 
-import { H2, Input, AuthFormError } from "../../components"
-import { authorizeUser } from "../../slices/authSlice"
+import { H2, Input, AuthFormError, Button } from "../../components"
+import { authorizeUser } from "../../slices/auth/authThunk"
 import {
   selectAuthError,
   selectAuthStatus,
@@ -60,10 +60,7 @@ function AuthorizationContainer({ className }) {
 
   const errorMessage = formError || serverError
 
-  // if (roleId !== ROLE.GUEST) return <Navigate to="/" />
-  if (roleId !== ROLE.GUEST) return console.log("авторизовано")
-
-  console.log(roleId)
+  if (roleId !== ROLE.GUEST) return <Navigate to="/" />
 
   return (
     <div className={className}>
@@ -83,12 +80,9 @@ function AuthorizationContainer({ className }) {
           {...register("password")}
         />
 
-        <button
-          className="auth-submit"
-          disabled={!!formError || status === "loading"}
-        >
+        <Button formError={formError} status={status}>
           {status === "loading" ? "Загрузка..." : "Авторизоваться"}
-        </button>
+        </Button>
 
         <Link to="/register" className="link">
           Зарегистрироваться
@@ -115,24 +109,10 @@ export const Authorization = styled(AuthorizationContainer)`
     border-radius: 10px;
   }
 
-  .auth-submit {
-    background-color: #7c7cff;
-    border: none;
-    border-radius: 6px;
-
-    color: #0f1117;
-    font-size: 16px;
-    font-weight: 600;
-
-    padding: 10px;
-    cursor: pointer;
-  }
-
-  .auth-submit:hover {
-    background-color: #8b8bff;
-  }
-
   .link {
+    padding: 5px 10px;
+    margin: 0 auto;
+
     text-align: center;
     color: #7c7cff;
     text-decoration: none;
