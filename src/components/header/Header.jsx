@@ -1,13 +1,9 @@
 import { Link } from "react-router-dom"
-import { useSelector } from "react-redux"
 import styled from "styled-components"
 
-import { selectUserRole } from "../../selectors"
-import { ROLE } from "../../constants"
+import { ControlPanel } from "./components"
 
 function HeaderContainer({ className }) {
-  const roleId = useSelector(selectUserRole)
-
   return (
     <header className={className}>
       <div className="header-content">
@@ -23,14 +19,7 @@ function HeaderContainer({ className }) {
         <span className="header-description">
           Платформа для совместной разработки учебных проектов
         </span>
-
-        <div className="auth-button">
-          {roleId !== ROLE.GUEST ? (
-            <Link to="/profile">Профиль</Link>
-          ) : (
-            <Link to="/authorization">Авторизация</Link>
-          )}
-        </div>
+        <ControlPanel />
       </div>
     </header>
   )
@@ -66,31 +55,5 @@ export const Header = styled(HeaderContainer)`
   & .header-description {
     font-size: 14px;
     color: #a0a0a0;
-  }
-
-  .auth-button {
-    width: 130px;
-
-    background: #1f2330;
-    border: 1px solid #2a2f45;
-    border-radius: 6px;
-
-    font: inherit;
-    text-align: center;
-
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .auth-button:hover {
-    background: #262b3d;
-  }
-
-  .auth-button a {
-    display: block;
-    width: 100%;
-    height: 100%;
-
-    padding: 8px 16px;
   }
 `

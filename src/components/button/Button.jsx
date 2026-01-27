@@ -1,8 +1,6 @@
 import styled from "styled-components"
 
 function ButtonContainer({ className, formError, status, children }) {
-  console.log("button", formError, status)
-
   return (
     <button
       className={className}

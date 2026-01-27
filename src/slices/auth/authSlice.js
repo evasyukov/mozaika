@@ -22,7 +22,7 @@ const authSlice = createSlice({
   reducers: {
     logout() {
       sessionStorage.removeItem("userData")
-      return initialState
+      return { ...initialState, isInitialized: true }
     },
 
     setUserFromStorage(state, action) {
