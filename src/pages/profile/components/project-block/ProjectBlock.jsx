@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 import { H2, ButtonPrimary, Project } from "../../../../components"
 
-function ProjectBlockContainer({ className }) {
+function ProjectBlockContainer({ className, projects }) {
   return (
     <div className={className}>
       <div className="section-header">
@@ -13,9 +13,14 @@ function ProjectBlockContainer({ className }) {
       </div>
 
       <div className="projects">
-        <Project />
-        <Project />
-        <Project />
+        {projects.map((project) => (
+          <Project
+            key={project.id}
+            name={project.name}
+            title={project.title}
+            skills={project.skills}
+          />
+        ))}
       </div>
     </div>
   )

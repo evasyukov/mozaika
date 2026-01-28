@@ -3,17 +3,21 @@ import styled from "styled-components"
 import { ButtonPrimary } from "../button-primary/ButtonPrimary"
 import { Skill } from "../../pages/profile/components/skills-block/components/Skill"
 
-function ProjectContainer({ className }) {
+function ProjectContainer({ className, name, title, skills }) {
   const isFooter = false
 
   return (
     <div className={className}>
-      <h3>Мозаика</h3>
-      <p>Платформа для поиска учебных проектов и командной разработки.</p>
+      <h3>{name}</h3>
+      <p>{title}</p>
 
       <div className="tags">
-        <Skill skillName="React" />
-        <Skill skillName="Frontend" />
+        {skills.map((skill) => {
+          return <Skill skillName={skill} />
+        })}
+
+        {/* <Skill skillName="React" />
+        <Skill skillName="Frontend" /> */}
       </div>
 
       {isFooter ? (
@@ -29,16 +33,15 @@ function ProjectContainer({ className }) {
 }
 
 export const Project = styled(ProjectContainer)`
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    background: #151821;
-    border: 1px solid #1f2330;
-    border-radius: 10px;
-    padding: 20px;
-    width: 800px;F
-
-  h3 {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #151821;
+  border: 1px solid #1f2330;
+  border-radius: 10px;
+  padding: 20px;
+  width: 800px;
+  F h3 {
     font-size: 18px;
   }
 

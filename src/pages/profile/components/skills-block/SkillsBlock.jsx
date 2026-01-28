@@ -3,18 +3,7 @@ import styled from "styled-components"
 import { H2 } from "../../../../components"
 import { Skill } from "./components/Skill"
 
-function SkillsBlockContainer({ className }) {
-  const skills = [
-    { name: "JavaScript" },
-    { name: "React" },
-    { name: "TypeScript" },
-    { name: "HTML" },
-    { name: "CSS" },
-    { name: "Git" },
-  ]
-
-  
-
+function SkillsBlockContainer({ className, skills = [] }) {
   return (
     <div className={className}>
       <H2 textAling="left" margin="0 0 16px">
@@ -23,7 +12,7 @@ function SkillsBlockContainer({ className }) {
 
       <div className="skills">
         {skills.map((skill) => (
-          <Skill skillName={skill.name} key={skill.name} />
+          <Skill skillName={skill} key={skill.id} />
         ))}
       </div>
     </div>

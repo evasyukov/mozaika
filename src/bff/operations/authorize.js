@@ -1,7 +1,7 @@
-import { getUser } from "../api"
+import { getUserByLogin } from "../api"
 
 export async function authorize(authLogin, authPassword) {
-  const user = await getUser(authLogin)
+  const user = await getUserByLogin(authLogin)
 
   if (!user) {
     return { error: "Пользователь не найден", response: null }

@@ -1,7 +1,7 @@
-import { getUser, addUser } from "../api"
+import { getUserByLogin, addUser } from "../api"
 
 export async function register(regLogin, regPassword) {
-  const user = await getUser(regLogin)
+  const user = await getUserByLogin(regLogin)
 
   if (user) {
     return {

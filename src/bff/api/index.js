@@ -2,9 +2,10 @@
 export * from "./addUser"
 
 // GET
-export * from "./getUser"
+export * from "./getUserByLogin"
+export * from "./getUserById"
+export * from "./getProjectsByAuthor"
 
 // DELETE
-
 
 // PATCH

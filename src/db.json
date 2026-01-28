@@ -6,23 +6,61 @@
       "password": "admin",
       "profile_visibility": true,
       "registed_at": "2023-01-01",
-      "role_id": 0
+      "role_id": 0,
+      "profile": {
+        "name": "admin",
+        "last_name": "",
+        "about": "Главный разработчик",
+        "description": "Изучаю frontend, люблю архитектуру интерфейсов и аккуратный код. Ищу команду для учебных и pet-проектов. Открыт к обмену опытом и готов вкладываться в совместные инициативы. Хочу развиваться в направлении создания удобных и эстетичных пользовательских решений.",
+        "skills": [
+          "React",
+          "JavsScript"
+        ],
+        "contacts": [
+          "telegram: @admin",
+          "email: admin@mail.com",
+          "github: github/admin.com"
+        ]
+      }
+    },
+    {
+      "id": "002",
+      "login": "egorka",
+      "password": "admin",
+      "profile_visibility": true,
+      "registed_at": "2025-11-12",
+      "role_id": 1,
+      "profile": {
+        "name": "Егор",
+        "last_name": "Васюков",
+        "about": "Frontend-разработчик",
+        "description": "Погружаюсь в мир фронтенда: мне нравится проектировать интерфейсы и писать аккуратный, понятный код. Ищу партнёров для совместных пет‑проектов и обучения на практике.",
+        "skills": [
+          "HTML",
+          "CSS",
+          "JavsScript"
+        ],
+        "contacts": [
+          "telegram: @egorka",
+          "email: egorka@mail.com"
+        ]
+      }
     },
     {
       "login": "user",
       "password": "user2",
       "profile_visibility": true,
-      "registed_at": "1984-01-19 00:54",
+      "registed_at": "1984-07-17 04:48",
       "role_id": 1,
-      "id": "UeDWG8T"
+      "id": "jIoUsu8"
     },
     {
       "login": "user",
       "password": "user2",
       "profile_visibility": true,
-      "registed_at": "1975-01-26 06:54",
+      "registed_at": "1974-01-14 15:06",
       "role_id": 1,
-      "id": "Chyy1E6"
+      "id": "hdEB0gP"
     }
   ],
   "roles": [
@@ -39,6 +77,33 @@
       "name": "Гость"
     }
   ],
-  "projects": [],
+  "projects": [
+    {
+      "id": "001",
+      "name": "Мозаика",
+      "title": "Платформа для совместных проектов",
+      "description": "Сайт для поиска команды для учебных проектов. Можно набирать команду в свой проект, или присоединиться к другому проекту",
+      "author_id": "001",
+      "skills": [
+        "React",
+        "Redux",
+        "JavaScript"
+      ],
+      "created_at": "2025-01-15"
+    },
+    {
+      "id": "002",
+      "name": "Задачка",
+      "title": "Список задач",
+      "description": "Приложение для создания задач, отслеживания времени затрат на задачи и их завершения",
+      "author_id": "001",
+      "skills": [
+        "Java",
+        "Kotlin",
+        "C##"
+      ],
+      "created_at": "2025-01-15"
+    }
+  ],
   "sessions": []
 }

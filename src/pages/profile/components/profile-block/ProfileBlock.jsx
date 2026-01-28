@@ -3,26 +3,23 @@ import styled from "styled-components"
 import { H2, ButtonSecondary } from "../../../../components"
 import { Contacts } from "./components"
 
-function ProfileBlockContainer({ className }) {
+function ProfileBlockContainer({ className, info }) {
   return (
     <div className={className}>
       <div className="profile-main">
         <div className="profile-info">
-          <H2 textAling="left">Егор Васюков</H2>
+          <H2 textAling="left">
+            {info.name} {info.lastName}
+          </H2>
 
-          <p className="profile-role">Frontend-разработчик</p>
+          <p className="profile-role">{info.about}</p>
 
-          <p className="profile-description">
-            Изучаю frontend, люблю архитектуру интерфейсов и аккуратный код. Ищу
-            команду для учебных и pet-проектов. Открыт к обмену опытом и готов
-            вкладываться в совместные инициативы. Хочу развиваться в направлении
-            создания удобных и эстетичных пользовательских решений.
-          </p>
+          <p className="profile-description">{info.description}</p>
 
           <div className="profile-contacts">
-            <Contacts icon="📧" text="egor@example.com" />
-            <Contacts icon="💬" text="telegram: @egor" />
-            <Contacts icon="🐙" text="github.com/egor" />
+            {info.contacts.map((contact) => {
+              return <Contacts key={contact} icon="📧" text={contact} />
+            })}
           </div>
         </div>
         <div className="avatar"></div>
