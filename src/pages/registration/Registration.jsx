@@ -7,7 +7,7 @@ import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import styled from "styled-components"
 
-import { H2, Input, AuthFormError, Button } from "../../components"
+import { H2, Input, AuthFormError, AuthButton } from "../../components"
 import { registerUser } from "../../slices/auth/authThunk"
 import {
   selectAuthError,
@@ -80,26 +80,26 @@ function RegistrarionContainer({ className }) {
 
         <Input
           type="text"
-          placeholder="Login123"
+          placeholder="username"
           title="Логин"
           {...register("login")}
         />
         <Input
           type="password"
-          placeholder="• • • • • • • •"
+          placeholder="password"
           title="Пароль"
           {...register("password")}
         />
         <Input
           type="password"
-          placeholder="• • • • • • • •"
+          placeholder="password"
           title="Введите пароль повторно"
           {...register("passcheck")}
         />
 
-        <Button formError={formError} status={status}>
+        <AuthButton formError={formError} status={status}>
           {status === "loading" ? "Загрузка..." : "Зарегистрироваться"}
-        </Button>
+        </AuthButton>
 
         {errorMessage && <AuthFormError>{errorMessage}</AuthFormError>}
       </form>
@@ -108,7 +108,7 @@ function RegistrarionContainer({ className }) {
 }
 
 export const Registrarion = styled(RegistrarionContainer)`
-  margin-top: 100px;
+  margin-top: 70px;
 
   .auth-card {
     display: flex;

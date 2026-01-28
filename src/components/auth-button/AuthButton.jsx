@@ -11,7 +11,7 @@ function ButtonContainer({ className, formError, status, children }) {
   )
 }
 
-export const Button = styled(ButtonContainer)`
+export const AuthButton = styled(ButtonContainer)`
   background-color: #7c7cff;
   border: none;
   border-radius: 6px;

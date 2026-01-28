@@ -7,7 +7,7 @@ import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import styled from "styled-components"
 
-import { H2, Input, AuthFormError, Button } from "../../components"
+import { H2, Input, AuthFormError, AuthButton } from "../../components"
 import { authorizeUser } from "../../slices/auth/authThunk"
 import {
   selectAuthError,
@@ -69,20 +69,20 @@ function AuthorizationContainer({ className }) {
 
         <Input
           type="text"
-          placeholder="Login123"
+          placeholder="username"
           title="Логин"
           {...register("login")}
         />
         <Input
           type="password"
-          placeholder="••••••••"
+          placeholder="password"
           title="Пароль"
           {...register("password")}
         />
 
-        <Button formError={formError} status={status}>
+        <AuthButton formError={formError} status={status}>
           {status === "loading" ? "Загрузка..." : "Авторизоваться"}
-        </Button>
+        </AuthButton>
 
         <Link to="/register" className="link">
           Зарегистрироваться
@@ -94,7 +94,7 @@ function AuthorizationContainer({ className }) {
 }
 
 export const Authorization = styled(AuthorizationContainer)`
-  margin-top: 100px;
+  margin-top: 70px;
 
   .auth-card {
     display: flex;

@@ -31,6 +31,10 @@ export const Input = styled(InputContainer)`
     font-size: 14px;
   }
 
+  input::placeholder {
+    color: #6d6d6d;
+  }
+
   input:focus {
     outline: none;
     border-color: #7c7cff;
