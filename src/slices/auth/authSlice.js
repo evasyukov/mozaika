@@ -9,10 +9,8 @@ const initialState = {
   login: null,
   roleId: ROLE.GUEST,
   session: null,
-
   status: "idle",
   error: null,
-
   isInitialized: false,
 }
 

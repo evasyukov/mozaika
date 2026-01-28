@@ -4,15 +4,25 @@
       "id": "001",
       "login": "admin",
       "password": "admin",
+      "profile_visibility": true,
       "registed_at": "2023-01-01",
       "role_id": 0
     },
     {
-      "login": "egorka",
-      "password": "egorka21",
-      "registed_at": "1979-05-10 23:00",
+      "login": "user",
+      "password": "user2",
+      "profile_visibility": true,
+      "registed_at": "1984-01-19 00:54",
       "role_id": 1,
-      "id": "YwCKHNV"
+      "id": "UeDWG8T"
+    },
+    {
+      "login": "user",
+      "password": "user2",
+      "profile_visibility": true,
+      "registed_at": "1975-01-26 06:54",
+      "role_id": 1,
+      "id": "Chyy1E6"
     }
   ],
   "roles": [

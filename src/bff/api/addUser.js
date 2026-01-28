@@ -9,6 +9,7 @@ export function addUser(login, password) {
     body: JSON.stringify({
       login,
       password,
+      profile_visibility: true,
       registed_at: generateDate(),
       role_id: 1,
     }),
