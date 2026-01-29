@@ -12,7 +12,7 @@ function SkillsBlockContainer({ className, skills = [] }) {
 
       <div className="skills">
         {skills.map((skill) => (
-          <Skill skillName={skill} key={skill.id} />
+          <Skill key={skill.id} skillName={skill} />
         ))}
       </div>
     </div>

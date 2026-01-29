@@ -7,6 +7,7 @@ import { ProfileBlock, SkillsBlock, ProjectBlock } from "./components"
 import { selectUserRole, selectUserId, selectUserInfo } from "../../selectors"
 import { ROLE } from "../../constants"
 import { profileIdThunk } from "../../slices/profile/profileThunk"
+import { checkIsUserProfile } from "../../utils"
 
 function ProfileContainer({ className }) {
   const { id } = useParams()
@@ -21,6 +22,8 @@ function ProfileContainer({ className }) {
 
   const profileId = id ?? authUserId
 
+  const isUserProfile = checkIsUserProfile(authUserId, id)
+
   useEffect(() => {
     if (profileId) dispatch(profileIdThunk(profileId))
   }, [profileId, dispatch])
@@ -32,9 +35,9 @@ function ProfileContainer({ className }) {
 
   return (
     <div className={className}>
-      <ProfileBlock info={profile.profile} />
+      <ProfileBlock info={profile.profile} isUserProfile={isUserProfile} />
       <SkillsBlock skills={profile.profile.skills} />
-      <ProjectBlock projects={profile.projects} />
+      <ProjectBlock projects={profile.projects} isUserProfile={isUserProfile} />
     </div>
   )
 }

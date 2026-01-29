@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { H2, ButtonSecondary } from "../../../../components"
 import { Contacts } from "./components"
 
-function ProfileBlockContainer({ className, info }) {
+function ProfileBlockContainer({ className, info, isUserProfile }) {
   return (
     <div className={className}>
       <div className="profile-main">
@@ -13,7 +13,6 @@ function ProfileBlockContainer({ className, info }) {
           </H2>
 
           <p className="profile-role">{info.about}</p>
-
           <p className="profile-description">{info.description}</p>
 
           <div className="profile-contacts">
@@ -25,10 +24,12 @@ function ProfileBlockContainer({ className, info }) {
         <div className="avatar"></div>
       </div>
 
-      <div className="profile-settings">
-        <ButtonSecondary>Редактировать профиль</ButtonSecondary>
-        <ButtonSecondary>Сделать профиль публичным</ButtonSecondary>
-      </div>
+      {isUserProfile && (
+        <div className="profile-settings">
+          <ButtonSecondary>Редактировать профиль</ButtonSecondary>
+          <ButtonSecondary>Сделать профиль публичным</ButtonSecondary>
+        </div>
+      )}
     </div>
   )
 }

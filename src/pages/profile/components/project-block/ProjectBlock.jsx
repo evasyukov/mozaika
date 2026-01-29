@@ -2,15 +2,23 @@ import styled from "styled-components"
 
 import { H2, ButtonPrimary, Project } from "../../../../components"
 
-function ProjectBlockContainer({ className, projects }) {
+function ProjectBlockContainer({ className, projects, isUserProfile }) {
   return (
     <div className={className}>
-      <div className="section-header">
-        <H2 textAling="left" margin="0 0 16px">
-          Мои проекты
-        </H2>
-        <ButtonPrimary>Создать проект</ButtonPrimary>
-      </div>
+      {!isUserProfile ? (
+        <div className="section-header">
+          <H2 textAling="left" margin="0 0 16px">
+            Проекты пользователя
+          </H2>
+        </div>
+      ) : (
+        <div className="section-header">
+          <H2 textAling="left" margin="0 0 16px">
+            Мои проекты
+          </H2>
+          <ButtonPrimary>Создать проект</ButtonPrimary>
+        </div>
+      )}
 
       <div className="projects">
         {projects.map((project) => (
