@@ -2,22 +2,22 @@ import styled from "styled-components"
 
 import { ButtonPrimary } from "../button-primary/ButtonPrimary"
 import { Skill } from "../../pages/profile/components/skills-block/components/Skill"
+import { Link } from "react-router-dom"
 
-function ProjectContainer({ className, name, title, skills }) {
+function ProjectContainer({ className, id, name, title, skills }) {
   const isFooter = false
 
   return (
     <div className={className}>
-      <h3>{name}</h3>
+      <Link to={`/project/${id}`}>
+        <h3>{name}</h3>
+      </Link>
       <p>{title}</p>
 
       <div className="tags">
         {skills.map((skill) => {
-          return <Skill skillName={skill} />
+          return <Skill skillName={skill} key={skill}/>
         })}
-
-        {/* <Skill skillName="React" />
-        <Skill skillName="Frontend" /> */}
       </div>
 
       {isFooter ? (
@@ -32,7 +32,7 @@ function ProjectContainer({ className, name, title, skills }) {
   )
 }
 
-export const Project = styled(ProjectContainer)`
+export const ProjectCard = styled(ProjectContainer)`
   display: flex;
   flex-direction: column;
   gap: 14px;

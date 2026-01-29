@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-import { H2, ButtonPrimary, Project } from "../../../../components"
+import { H2, ButtonPrimary, ProjectCard } from "../../../../components"
 
 function ProjectBlockContainer({ className, projects, isUserProfile }) {
   return (
@@ -22,11 +22,13 @@ function ProjectBlockContainer({ className, projects, isUserProfile }) {
 
       <div className="projects">
         {projects.map((project) => (
-          <Project
+          <ProjectCard
             key={project.id}
+            id={project.id}
             name={project.name}
             title={project.title}
             skills={project.skills}
+            
           />
         ))}
       </div>

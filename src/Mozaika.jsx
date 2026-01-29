@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 import styled from "styled-components"
 
 import { Header } from "./components"
-import { Authorization, Registrarion, Profile } from "./pages"
+import { Authorization, Registrarion, Profile, Project } from "./pages"
 import { useInitAuth } from "./hooks"
 import { selectIsAuthInitialized } from "./selectors"
 import { register } from "./bff/operations"
@@ -28,6 +28,8 @@ export default function Mozaika() {
           <Route path="/register" element={<Registrarion />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/project" element={<Project />} />
+          <Route path="/project/:id" element={<Project />} />
           <Route path="*" element={<div>Ошибка</div>} />
         </Routes>
       </AppColumn>

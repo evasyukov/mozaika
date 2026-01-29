@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit"
-
 import { profileIdThunk } from "./profileThunk"
 
 const initialState = {
