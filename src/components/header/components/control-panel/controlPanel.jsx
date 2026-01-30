@@ -40,7 +40,7 @@ export const ControlPanel = styled(ControlPanelContainer)`
   .auth-button {
     width: 130px;
 
-    background: #1f2330;
+    background-color: #1f2330;
     border: 1px solid #2a2f45;
     border-radius: 6px;
 
@@ -52,7 +52,7 @@ export const ControlPanel = styled(ControlPanelContainer)`
   }
 
   .auth-button:hover {
-    background: #262b3d;
+    background-color: #262b3d;
   }
 
   .auth-button a {

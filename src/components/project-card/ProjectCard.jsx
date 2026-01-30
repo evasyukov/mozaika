@@ -16,7 +16,7 @@ function ProjectContainer({ className, id, name, title, skills }) {
 
       <div className="tags">
         {skills.map((skill) => {
-          return <Skill skillName={skill} key={skill}/>
+          return <Skill skillName={skill} key={skill} />
         })}
       </div>
 
@@ -36,12 +36,16 @@ export const ProjectCard = styled(ProjectContainer)`
   display: flex;
   flex-direction: column;
   gap: 14px;
-  background: #151821;
+
+  width: 800px;
+
+  background-color: #151821;
   border: 1px solid #1f2330;
   border-radius: 10px;
+
   padding: 20px;
-  width: 800px;
-  F h3 {
+
+  h3 {
     font-size: 18px;
   }
 
@@ -57,7 +61,7 @@ export const ProjectCard = styled(ProjectContainer)`
   }
 
   .tags span {
-    background: #1f2330;
+    background-color: #1f2330;
     border: 1px solid #2a2f45;
     padding: 4px 10px;
     border-radius: 12px;

@@ -5,7 +5,7 @@ function ButtonContainer({ className, children }) {
 }
 
 export const ButtonPrimary = styled(ButtonContainer)`
-  background: #7c7cff;
+  background-color: #7c7cff;
   color: #0f1115;
 
   border: none;

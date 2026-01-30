@@ -1,5 +1,6 @@
 // POST
 export * from "./addUser"
+export * from "./addProject"
 
 // GET
 export * from "./getUserByLogin"

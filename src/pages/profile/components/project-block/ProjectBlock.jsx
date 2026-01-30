@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 import { H2, ButtonPrimary, ProjectCard } from "../../../../components"
@@ -16,7 +17,10 @@ function ProjectBlockContainer({ className, projects, isUserProfile }) {
           <H2 textAling="left" margin="0 0 16px">
             Мои проекты
           </H2>
-          <ButtonPrimary>Создать проект</ButtonPrimary>
+
+          <Link to={`/project`}>
+            <ButtonPrimary>Создать проект</ButtonPrimary>
+          </Link>
         </div>
       )}
 
@@ -28,7 +32,6 @@ function ProjectBlockContainer({ className, projects, isUserProfile }) {
             name={project.name}
             title={project.title}
             skills={project.skills}
-            
           />
         ))}
       </div>

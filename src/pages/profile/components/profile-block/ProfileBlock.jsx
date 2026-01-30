@@ -43,7 +43,7 @@ export const ProfileBlock = styled(ProfileBlockContainer)`
 
   padding: 24px;
 
-  background: #151821;
+  background-color: #151821;
   border: 1px solid #1f2330;
   border-radius: 12px;
 

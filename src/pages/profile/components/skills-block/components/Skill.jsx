@@ -17,7 +17,7 @@ export const Skill = styled(SkillContainer)`
   user-select: none;
   
   .skill {
-    background: #1f2330;
+    background-color: #1f2330;
 
     border: 1px solid #2a2f45;
     border-radius: 20px;
@@ -29,7 +29,7 @@ export const Skill = styled(SkillContainer)`
   }
 
   .skill.primary {
-    background: rgba(124, 124, 255, 0.15);
+    background-color: rgba(124, 124, 255, 0.15);
     border-color: #7c7cff;
   }
 `
