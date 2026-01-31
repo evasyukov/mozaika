@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Navigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 
-import { ProfileBlock, SkillsBlock, ProjectBlock } from "./components"
+import { ProfileBlock, ProjectBlock } from "./components"
 import { selectUserRole, selectUserId, selectUserInfo } from "../../selectors"
 import { ROLE } from "../../constants"
 import { profileIdThunk } from "../../slices/profile/profileThunk"
@@ -36,7 +36,6 @@ function ProfileContainer({ className }) {
   return (
     <div className={className}>
       <ProfileBlock info={profile.profile} isUserProfile={isUserProfile} />
-      <SkillsBlock skills={profile.profile.skills} />
       <ProjectBlock projects={profile.projects} isUserProfile={isUserProfile} />
     </div>
   )

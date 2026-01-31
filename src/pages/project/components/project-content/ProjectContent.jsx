@@ -1,23 +1,27 @@
 import styled from "styled-components"
 
 import { H2 } from "../../../../components"
+import {
+  ButtonSecondary,
+  ButtonDelete,
+  SkillsBlock,
+} from "../../../../components"
 
 function ProjectContentContainer({ className, project, author, isAuthor }) {
   return (
     <div className={className}>
       <header>
-        <div className="top">
+        <div className="title">
           <h1>{project.name}</h1>
-          {isAuthor && <a className="edit">Редактировать</a>}
+          <div className="actions-button">
+            {isAuthor && <ButtonSecondary>Редактировать</ButtonSecondary>}
+            {isAuthor && <ButtonDelete>Удалить</ButtonDelete>}
+          </div>
         </div>
 
         <p className="subtitle">{project.title}</p>
 
-        <div className="skills">
-          {project.skills.map((skill) => (
-            <span key={skill}>{skill}</span>
-          ))}
-        </div>
+        <SkillsBlock skills={project.skills} />
       </header>
 
       <section>
@@ -47,53 +51,21 @@ export const ProjectContent = styled(ProjectContentContainer)`
     margin-bottom: 32px;
   }
 
-  header h1 {
-    margin: 0 0 8px;
-    font-size: 32px;
-  }
-
-  header .top {
+  .title {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 16px;
   }
 
-  .edit {
-    background-color: #1f2330;
-    border: 1px solid #2a2f45;
-    border-radius: 6px;
-
-    font-size: 14px;
-    color: #a0a0ff;
-
-    padding: 6px 10px;
-
-    text-decoration: none;
-
-    &:hover {
-      background-color: #262b3d;
-    }
+  .actions-button {
+    display: flex;
+    gap: 8px;
   }
 
   .subtitle {
     margin: 0 0 16px;
     color: #b0b0b0;
-  }
-
-  .skills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-
-    span {
-      background-color: #1f2330;
-      border: 1px solid #2a2f45;
-      border-radius: 999px;
-
-      padding: 6px 12px;
-      font-size: 13px;
-    }
   }
 
   section {

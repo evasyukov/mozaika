@@ -6,17 +6,18 @@ function ButtonContainer({ className, children }) {
 
 export const ButtonSecondary = styled(ButtonContainer)`
   background-color: #1f2330;
-  color: #e6e6e6;
-
   border: 1px solid #2a2f45;
   border-radius: 6px;
 
-  padding: 8px 14px;
-  cursor: pointer;
+  font-size: 14px;
+  color: #a0a0ff;
+
+  padding: 6px 10px;
 
   user-select: none;
+  cursor: pointer;
 
   &:hover {
-    background: #333951;
+    background-color: #262b3d;
   }
 `

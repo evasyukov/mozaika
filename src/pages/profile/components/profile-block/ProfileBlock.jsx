@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-import { H2, ButtonSecondary } from "../../../../components"
+import { H2, ButtonSecondary, SkillsBlock } from "../../../../components"
 import { Contacts } from "./components"
 
 function ProfileBlockContainer({ className, info, isUserProfile }) {
@@ -20,16 +20,18 @@ function ProfileBlockContainer({ className, info, isUserProfile }) {
               return <Contacts key={contact} icon="📧" text={contact} />
             })}
           </div>
-        </div>
-        <div className="avatar"></div>
-      </div>
 
-      {isUserProfile && (
-        <div className="profile-settings">
-          <ButtonSecondary>Редактировать профиль</ButtonSecondary>
-          <ButtonSecondary>Сделать профиль публичным</ButtonSecondary>
+          <SkillsBlock skills={info.skills} />
         </div>
-      )}
+        <div>
+          <div className="avatar"></div>
+          {isUserProfile && (
+            <div className="profile-settings">
+              <ButtonSecondary>Редактировать профиль</ButtonSecondary>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
@@ -83,11 +85,6 @@ export const ProfileBlock = styled(ProfileBlockContainer)`
     display: flex;
     gap: 12px;
 
-    margin-top: 12px;
-  }
-
-  & .profile-settings {
-    display: flex;
-    gap: 12px;
+    margin: 24px 0;
   }
 `

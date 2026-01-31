@@ -1,8 +1,8 @@
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 import { ButtonPrimary } from "../button-primary/ButtonPrimary"
-import { Skill } from "../../pages/profile/components/skills-block/components/Skill"
-import { Link } from "react-router-dom"
+import { SkillsBlock } from "../skills-block/SkillsBlock"
 
 function ProjectContainer({ className, id, name, title, skills }) {
   const isFooter = false
@@ -14,11 +14,7 @@ function ProjectContainer({ className, id, name, title, skills }) {
       </Link>
       <p>{title}</p>
 
-      <div className="tags">
-        {skills.map((skill) => {
-          return <Skill skillName={skill} key={skill} />
-        })}
-      </div>
+      <SkillsBlock skills={skills} />
 
       {isFooter ? (
         <div className="project-footer">
@@ -47,6 +43,10 @@ export const ProjectCard = styled(ProjectContainer)`
 
   h3 {
     font-size: 18px;
+  }
+
+  h3:hover {
+    color: #5b45c8;
   }
 
   p {
