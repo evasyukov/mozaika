@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { projectThunk } from "./projectThunk"
+import { projectThunk, deleteProjectThunk } from "./projectThunk"
 
 const initialState = {
   data: null,
@@ -22,6 +22,17 @@ const projectSlice = createSlice({
         state.data = action.payload
       })
       .addCase(projectThunk.rejected, (state, action) => {
+        state.status = "failed"
+        state.error = action.payload
+      })
+      .addCase(deleteProjectThunk.pending, (state) => {
+        state.status = "loading"
+      })
+      .addCase(deleteProjectThunk.fulfilled, (state) => {
+        state.status = "succeeded"
+        state.data = null
+      })
+      .addCase(deleteProjectThunk.rejected, (state, action) => {
         state.status = "failed"
         state.error = action.payload
       })

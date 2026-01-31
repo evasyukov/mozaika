@@ -108,15 +108,62 @@
       "created_at": "2025-01-15"
     },
     {
-      "name": "321423",
-      "title": "12341234",
-      "description": "32141234",
+      "name": "Змейка",
+      "title": "Игра змейка",
+      "description": "Мобильная игра змейка",
       "skills": [
-        "12341234"
+        "Kotlin"
       ],
       "author_id": "001",
-      "created_at": "2026-01-30",
-      "id": "UTbt8nm"
+      "created_at": "2026-01-31",
+      "id": "7lBHwF1"
+    },
+    {
+      "name": "qwedqwe",
+      "title": "dqwedqwed",
+      "description": "qwedqwedqwedwqed",
+      "skills": [
+        "wqedqwed",
+        "qwedqwed",
+        "wqedqweded",
+        "frefewrf"
+      ],
+      "author_id": "001",
+      "created_at": "2026-01-31",
+      "id": "7-1hmVW"
+    },
+    {
+      "name": "qwefqwef",
+      "title": "wqefwef",
+      "description": "wefwqef",
+      "skills": [
+        "wefqwef"
+      ],
+      "author_id": "001",
+      "created_at": "2026-01-31",
+      "id": "mYBVa-8"
+    },
+    {
+      "name": "qwer4",
+      "title": "qwer",
+      "description": "r34r34r",
+      "skills": [
+        "123r23"
+      ],
+      "author_id": "001",
+      "created_at": "2026-01-31",
+      "id": "fc5SLTU"
+    },
+    {
+      "name": "iyukuilui",
+      "title": "uikyuik",
+      "description": "uyikuyik",
+      "skills": [
+        "yuikyuik"
+      ],
+      "author_id": "001",
+      "created_at": "2026-01-31",
+      "id": "vzaTAeP"
     }
   ],
   "sessions": []

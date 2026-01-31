@@ -1,3 +1,5 @@
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 
 import { Avatar, H2 } from "../../../../components"
@@ -6,8 +8,23 @@ import {
   ButtonDelete,
   SkillsBlock,
 } from "../../../../components"
+import { deleteProjectThunk } from "../../../../slices/project/projectThunk"
 
 function ProjectContentContainer({ className, project, author, isAuthor }) {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  function onProjectRemove() {
+    dispatch(
+      deleteProjectThunk({
+        projectId: project.id,
+        authorId: author.id,
+      }),
+    )
+
+    navigate("/profile")
+  }
+
   return (
     <div className={className}>
       <header>
@@ -15,7 +32,9 @@ function ProjectContentContainer({ className, project, author, isAuthor }) {
           <h1>{project.name}</h1>
           <div className="actions-button">
             {isAuthor && <ButtonSecondary>Редактировать</ButtonSecondary>}
-            {isAuthor && <ButtonDelete>Удалить</ButtonDelete>}
+            {isAuthor && (
+              <ButtonDelete onClick={onProjectRemove}>Удалить</ButtonDelete>
+            )}
           </div>
         </div>
 

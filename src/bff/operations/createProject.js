@@ -1,9 +1,6 @@
 import { addProject } from "../api"
 
 export async function createProject(projectData, authorId) {
-
-  console.log(projectData);
-  
   const project = await addProject({
     ...projectData,
     authorId,

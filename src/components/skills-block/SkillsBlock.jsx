@@ -6,7 +6,9 @@ function SkillsBlockContainer({ className, skills = [] }) {
   return (
     <div className={className}>
       {skills.map((skill) => (
-        <span className="skill">{skill}</span>
+        <span key={skill} className="skill">
+          {skill}
+        </span>
       ))}
     </div>
   )

@@ -9,5 +9,6 @@ export * from "./getProjectsByAuthor"
 export * from "./getProjectById"
 
 // DELETE
+export * from './deleteProject'
 
 // PATCH

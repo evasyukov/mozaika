@@ -30,8 +30,6 @@ function ProjectContainer({ className }) {
   const authUserId = useSelector(selectUserId)
 
   useEffect(() => {
-    // dispatch(clearProject())
-
     if (!isCreating && params.id) {
       dispatch(projectThunk(params.id))
     }
