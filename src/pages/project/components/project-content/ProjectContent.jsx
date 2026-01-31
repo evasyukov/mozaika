@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-import { H2 } from "../../../../components"
+import { Avatar, H2 } from "../../../../components"
 import {
   ButtonSecondary,
   ButtonDelete,
@@ -36,7 +36,7 @@ function ProjectContentContainer({ className, project, author, isAuthor }) {
           Автор проекта
         </H2>
         <div className="author">
-          <div className="avatar" />
+          <Avatar size="48" />
           <span>
             {author.name} {author.lastName}
           </span>
@@ -86,13 +86,5 @@ export const ProjectContent = styled(ProjectContentContainer)`
     display: flex;
     align-items: center;
     gap: 12px;
-
-    .avatar {
-      width: 48px;
-      height: 48px;
-
-      background-color: #2a2f45;
-      border-radius: 50%;
-    }
   }
 `

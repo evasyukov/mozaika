@@ -1,6 +1,11 @@
 import styled from "styled-components"
 
-import { H2, ButtonSecondary, SkillsBlock } from "../../../../components"
+import {
+  H2,
+  ButtonSecondary,
+  SkillsBlock,
+  Avatar,
+} from "../../../../components"
 import { Contacts } from "./components"
 
 function ProfileBlockContainer({ className, info, isUserProfile }) {
@@ -24,7 +29,7 @@ function ProfileBlockContainer({ className, info, isUserProfile }) {
           <SkillsBlock skills={info.skills} />
         </div>
         <div>
-          <div className="avatar"></div>
+          <Avatar size="140" />
           {isUserProfile && (
             <div className="profile-settings">
               <ButtonSecondary>Редактировать профиль</ButtonSecondary>
@@ -54,14 +59,6 @@ export const ProfileBlock = styled(ProfileBlockContainer)`
     gap: 24px;
 
     width: 100%;
-  }
-
-  & .avatar {
-    width: 140px;
-    height: 140px;
-
-    border-radius: 50%;
-    background-color: #000;
   }
 
   & .profile-info {
