@@ -31,7 +31,13 @@ function ProjectContentContainer({ className, project, author, isAuthor }) {
         <div className="title">
           <h1>{project.name}</h1>
           <div className="actions-button">
-            {isAuthor && <ButtonSecondary>Редактировать</ButtonSecondary>}
+            {isAuthor && (
+              <ButtonSecondary
+                onClick={() => navigate(`/project/${project.id}/edit`)}
+              >
+                Редактировать
+              </ButtonSecondary>
+            )}
             {isAuthor && (
               <ButtonDelete onClick={onProjectRemove}>Удалить</ButtonDelete>
             )}

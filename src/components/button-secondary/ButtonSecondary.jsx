@@ -1,7 +1,11 @@
 import styled from "styled-components"
 
-function ButtonContainer({ className, children }) {
-  return <button className={className}>{children}</button>
+function ButtonContainer({ className, children, ...props }) {
+  return (
+    <button className={className} {...props}>
+      {children}
+    </button>
+  )
 }
 
 export const ButtonSecondary = styled(ButtonContainer)`

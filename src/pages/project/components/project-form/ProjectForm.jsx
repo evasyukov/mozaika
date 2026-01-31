@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
@@ -9,7 +9,7 @@ import styled from "styled-components"
 
 import { H2, Input, ButtonPrimary, AuthFormError } from "../../../../components"
 import { AddSkills } from "./components/AddSkills"
-import { createProjectThunk } from "../../../../slices/project/projectThunk"
+import { saveProjectThunk } from "../../../../slices/project/projectThunk"
 import { selectUserId } from "../../../../selectors"
 
 const projectFormSchema = yup.object().shape({
@@ -29,10 +29,11 @@ const projectFormSchema = yup.object().shape({
     .max(50, "Описание проекта должно иметь не более 50 символов"),
 })
 
-function ProjectFormContainer({ className }) {
+function ProjectFormContainer({ className, project }) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -50,6 +51,18 @@ function ProjectFormContainer({ className }) {
   const [skills, setSkills] = useState([])
   const [errorSkill, setErrorSkill] = useState("")
 
+  useEffect(() => {
+    if (project) {
+      reset({
+        name: project.name,
+        title: project.title,
+      })
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setDescription(project.description)
+      setSkills(project.skills)
+    }
+  }, [project, reset])
+
   const addSkill = (skill) => {
     setSkills((prev) => [...prev, skill])
   }
@@ -66,17 +79,22 @@ function ProjectFormContainer({ className }) {
       setErrorSkill("Добавьте хотя бы один навык")
       return
     }
+
     const projectData = {
-      name: name,
-      title: title,
+      name,
+      title,
       description,
       skills,
-      author_id: authUserId,
-      created_at: new Date().toISOString().split("T")[0],
+      authUserId,
+      projectId: project?.id,
     }
-    dispatch(createProjectThunk(projectData))
-    setDescription("")
-    setSkills([])
+
+    dispatch(
+      saveProjectThunk({
+        data: projectData,
+      }),
+    )
+
     navigate("/profile")
   }
 

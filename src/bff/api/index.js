@@ -12,3 +12,4 @@ export * from "./getProjectById"
 export * from './deleteProject'
 
 // PATCH
+export * from './updateProject'

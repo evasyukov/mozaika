@@ -26,10 +26,14 @@ export default function Mozaika() {
           <Route path="/" element={<div>Главная страница</div>} />
           <Route path="/authorization" element={<Authorization />} />
           <Route path="/register" element={<Registrarion />} />
+
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/:id" element={<Profile />} />
+
           <Route path="/project" element={<Project />} />
           <Route path="/project/:id" element={<Project />} />
+          <Route path="/project/:id/edit" element={<Project />} />
+
           <Route path="*" element={<div>Ошибка</div>} />
         </Routes>
       </AppColumn>

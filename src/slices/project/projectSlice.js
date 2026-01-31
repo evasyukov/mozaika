@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { projectThunk, deleteProjectThunk } from "./projectThunk"
+import {
+  projectThunk,
+  saveProjectThunk,
+  deleteProjectThunk,
+} from "./projectThunk"
 
 const initialState = {
   data: null,
@@ -13,6 +17,7 @@ const projectSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // получаем проект
       .addCase(projectThunk.pending, (state) => {
         state.status = "loading"
         state.error = null
@@ -25,8 +30,25 @@ const projectSlice = createSlice({
         state.status = "failed"
         state.error = action.payload
       })
+
+      // создание и обновление проекта
+      // .addCase(saveProjectThunk.pending, (state) => {
+      //   state.status = "loading"
+      //   state.error = null
+      // })
+      // .addCase(saveProjectThunk.fulfilled, (state, action) => {
+      //   state.status = "succeeded"
+      //   state.data = action.payload
+      // })
+      // .addCase(saveProjectThunk.rejected, (state, action) => {
+      //   state.status = "failed"
+      //   state.error = action.payload
+      // })
+
+      // удаление проекта
       .addCase(deleteProjectThunk.pending, (state) => {
         state.status = "loading"
+        state.error = null
       })
       .addCase(deleteProjectThunk.fulfilled, (state) => {
         state.status = "succeeded"
