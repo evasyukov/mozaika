@@ -20,12 +20,9 @@ export const projectThunk = createAsyncThunk(
 // добавление проекта и редактирование проекта
 export const saveProjectThunk = createAsyncThunk(
   "project/save",
-  async ({ data }, { getState, rejectWithValue }) => {
-    const authorId = selectUserId(getState())
-
+  async ({ data }, { rejectWithValue }) => {
     const { error, response } = await saveProject({
       data,
-      authorId,
     })
 
     if (error) return rejectWithValue(error)

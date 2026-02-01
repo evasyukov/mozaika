@@ -32,18 +32,17 @@ const projectSlice = createSlice({
       })
 
       // создание и обновление проекта
-      // .addCase(saveProjectThunk.pending, (state) => {
-      //   state.status = "loading"
-      //   state.error = null
-      // })
-      // .addCase(saveProjectThunk.fulfilled, (state, action) => {
-      //   state.status = "succeeded"
-      //   state.data = action.payload
-      // })
-      // .addCase(saveProjectThunk.rejected, (state, action) => {
-      //   state.status = "failed"
-      //   state.error = action.payload
-      // })
+      .addCase(saveProjectThunk.pending, (state) => {
+        state.status = "loading"
+        state.error = null
+      })
+      .addCase(saveProjectThunk.fulfilled, (state) => {
+        state.status = "succeeded"
+      })
+      .addCase(saveProjectThunk.rejected, (state, action) => {
+        state.status = "failed"
+        state.error = action.payload
+      })
 
       // удаление проекта
       .addCase(deleteProjectThunk.pending, (state) => {

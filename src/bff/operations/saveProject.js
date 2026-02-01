@@ -1,13 +1,12 @@
 import { addProject, updateProject } from "../api"
 
-export async function saveProject({ data, authorId }) {
+export async function saveProject({ data }) {
   const project = data.projectId
     ? await updateProject({
         ...data,
       })
     : await addProject({
         ...data,
-        authorId,
       })
 
   if (!project) {
