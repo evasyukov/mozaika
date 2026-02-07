@@ -14,7 +14,13 @@ const initialState = {
 const projectSlice = createSlice({
   name: "project",
   initialState,
-  reducers: {},
+  reducers: {
+    resetProjectData: (state) => {
+      state.data = null
+      state.status = "idle"
+      state.error = null
+    },
+  },
   extraReducers: (builder) => {
     builder
       // получаем проект
@@ -60,4 +66,5 @@ const projectSlice = createSlice({
   },
 })
 
+export const { resetProjectData } = projectSlice.actions
 export default projectSlice.reducer

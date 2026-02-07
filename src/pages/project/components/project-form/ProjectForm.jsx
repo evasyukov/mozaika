@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useLayoutEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
@@ -29,7 +29,7 @@ const projectFormSchema = yup.object().shape({
     .max(50, "Описание проекта должно иметь не более 50 символов"),
 })
 
-function ProjectFormContainer({ className, project }) {
+function ProjectFormContainer({ className, project, status }) {
   const {
     register,
     handleSubmit,
@@ -51,7 +51,7 @@ function ProjectFormContainer({ className, project }) {
   const [skills, setSkills] = useState([])
   const [errorSkill, setErrorSkill] = useState("")
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (project) {
       reset({
         name: project.name,
@@ -60,6 +60,10 @@ function ProjectFormContainer({ className, project }) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setDescription(project.description)
       setSkills(project.skills)
+    } else {
+      reset({ name: "", title: "" })
+      setDescription("")
+      setSkills([])
     }
   }, [project, reset])
 
@@ -102,7 +106,9 @@ function ProjectFormContainer({ className, project }) {
 
   return (
     <div className={className}>
-      <H2 margin="0 0 32px">Создание проекта</H2>
+      <H2 margin="0 0 32px">
+        {status === "editing" ? "Редактирование проекта" : "Создание проекта"}
+      </H2>
 
       {formError && <AuthFormError>{formError}</AuthFormError>}
 
@@ -131,7 +137,9 @@ function ProjectFormContainer({ className, project }) {
 
         <AddSkills skills={skills} onAdd={addSkill} onRemove={removeSkill} />
 
-        <ButtonPrimary>Создать проект</ButtonPrimary>
+        <ButtonPrimary>
+          {status === "editing" ? "Сохранить изменения" : "Создать проект"}
+        </ButtonPrimary>
       </form>
     </div>
   )

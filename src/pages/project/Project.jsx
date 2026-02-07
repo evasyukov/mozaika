@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useLayoutEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Navigate, useParams, useMatch } from "react-router-dom"
 import styled from "styled-components"
@@ -12,6 +12,7 @@ import {
 } from "../../selectors"
 import { projectThunk } from "../../slices/project/projectThunk"
 import { ROLE } from "../../constants"
+import { resetProjectData } from "../../slices/project/projectSlice"
 
 import { ProjectContent, ProjectForm } from "./components"
 
@@ -28,6 +29,12 @@ function ProjectContainer({ className }) {
 
   const roleId = useSelector(selectUserRole)
   const authUserId = useSelector(selectUserId)
+
+  useLayoutEffect(() => {
+    if (isCreating) {
+      dispatch(resetProjectData())
+    }
+  }, [dispatch, isCreating])
 
   useEffect(() => {
     if (!isCreating && params.id) {
@@ -55,7 +62,11 @@ function ProjectContainer({ className }) {
         <Navigate to={`/project/${params.id}`} />
       ) : (
         <div className={className}>
-          <ProjectForm project={project} />
+          <ProjectForm
+            key={project?.id || "new"}
+            project={project}
+            status={isEditing ? "editing" : "creating"}
+          />
         </div>
       )
     ) : (
