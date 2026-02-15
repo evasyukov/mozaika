@@ -8,7 +8,7 @@ export async function addProject(projectData) {
       name: projectData.name,
       title: projectData.title,
       description: projectData.description,
-      author_id: projectData.authUserId,
+      userId: projectData.authUserId,
       skills: projectData.skills,
       created_at: generateDate(),
     }),
