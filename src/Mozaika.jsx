@@ -7,6 +7,7 @@ import { Authorization, Registrarion, Profile, Project } from "./pages"
 import { useInitAuth } from "./hooks"
 import { selectIsAuthInitialized } from "./selectors"
 import { register } from "./bff/operations"
+import { Main } from "./pages/main/Main"
 
 export default function Mozaika() {
   useInitAuth()
@@ -23,7 +24,7 @@ export default function Mozaika() {
 
       <AppColumn>
         <Routes>
-          <Route path="/" element={<div>Главная страница</div>} />
+          <Route path="/" element={<Main />} />
           <Route path="/authorization" element={<Authorization />} />
           <Route path="/register" element={<Registrarion />} />
 
@@ -47,8 +48,6 @@ const AppColumn = styled.div`
   align-items: center;
 
   width: 100%;
-
-  padding: 26px 0;
 
   margin: 0 auto;
 `

@@ -5,5 +5,6 @@ export * from "./profile"
 
 // project
 export * from "./fetchProject"
+export * from "./fetchProjects"
 export * from "./saveProject"
 export * from "./removeProject"

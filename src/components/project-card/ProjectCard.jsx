@@ -1,25 +1,41 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 
 import { ButtonPrimary } from "../button-primary/ButtonPrimary"
 import { SkillsBlock } from "../skills-block/SkillsBlock"
+import { H2 } from "../H2/H2"
 
-function ProjectContainer({ className, id, name, title, skills }) {
-  const isFooter = false
+function ProjectContainer({
+  className,
+  id,
+  name,
+  title,
+  skills,
+  authorName,
+  createdAt,
+  isFooter = false,
+}) {
+  const navigate = useNavigate()
 
   return (
     <div className={className}>
       <Link to={`/project/${id}`}>
-        <h3>{name}</h3>
+        <H2 textAling="left">{name}</H2>
       </Link>
+
       <p>{title}</p>
 
       <SkillsBlock skills={skills} />
 
       {isFooter ? (
         <div className="project-footer">
-          <span className="author">Автор: Егор</span>
-          <ButtonPrimary>Подробнее</ButtonPrimary>
+          <div className="project-info">
+            <span className="author">Автор: {authorName}</span>
+            <span className="author">Опубликовано: {createdAt}</span>
+          </div>
+          <ButtonPrimary onClick={() => navigate(`/project/${id}`)}>
+            Подробнее
+          </ButtonPrimary>
         </div>
       ) : (
         <></>
@@ -41,11 +57,7 @@ export const ProjectCard = styled(ProjectContainer)`
 
   padding: 20px;
 
-  h3 {
-    font-size: 18px;
-  }
-
-  h3:hover {
+  h2:hover {
     color: #5b45c8;
   }
 
@@ -54,24 +66,20 @@ export const ProjectCard = styled(ProjectContainer)`
     color: #b5b5b5;
   }
 
-  .tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .tags span {
-    background-color: #1f2330;
-    border: 1px solid #2a2f45;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-  }
-
   .project-footer {
-    margin-top: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .project-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .author {
+    font-size: 12px;
+    color: #9a9a9a;
   }
 `

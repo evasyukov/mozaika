@@ -7,6 +7,7 @@ export * from "./getUserByLogin"
 export * from "./getUserById"
 export * from "./getProjectsByAuthor"
 export * from "./getProjectById"
+export * from "./getProjects"
 
 // DELETE
 export * from './deleteProject'

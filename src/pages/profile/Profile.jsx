@@ -45,4 +45,6 @@ export const Profile = styled(ProfileContainer)`
   display: flex;
   flex-direction: column;
   gap: 30px;
+
+  padding: 24px 0;
 `
