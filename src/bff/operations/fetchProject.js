@@ -1,4 +1,4 @@
-import { getProjectById, getUserById } from "../api"
+import { getProjectById } from "../api"
 
 export async function fetchProject(id) {
   const project = await getProjectById(id)
@@ -6,8 +6,6 @@ export async function fetchProject(id) {
   if (!project) {
     return { error: "Такого проекта не существует :(", response: null }
   }
-
-  const author = await getUserById(project.author_id)
 
   const projectData = {
     project: {
@@ -18,9 +16,9 @@ export async function fetchProject(id) {
       skills: project.skills,
     },
     author: {
-      id: author.id,
-      name: author.profile.name,
-      lastName: author.profile.last_name,
+      id: project.user.id,
+      name: project.user.profile.name,
+      lastName: project.user.profile.last_name,
     },
   }
 
