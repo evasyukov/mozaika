@@ -17,7 +17,7 @@ export const authorizeUser = createAsyncThunk(
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async ({ data }, { rejectWithValue }) => {
-    const { error, response } = await register({ data })
+    const { error, response } = await register(data )
 
     if (error) {
       return rejectWithValue(error)

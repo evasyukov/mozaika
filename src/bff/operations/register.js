@@ -1,6 +1,6 @@
 import { getUserByLogin, addUser } from "../api"
 
-export async function register({ data }) {
+export async function register(data) {
   const user = await getUserByLogin(data.login)
 
   if (user) {

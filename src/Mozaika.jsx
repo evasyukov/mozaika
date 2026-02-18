@@ -6,14 +6,11 @@ import { Header } from "./components"
 import { Authorization, Registrarion, Profile, Project } from "./pages"
 import { useInitAuth } from "./hooks"
 import { selectIsAuthInitialized } from "./selectors"
-import { register } from "./bff/operations"
 import { Main } from "./pages/main/Main"
 
 export default function Mozaika() {
   useInitAuth()
   const isInitialized = useSelector(selectIsAuthInitialized)
-
-  register("user", "user2")
 
   if (!isInitialized) {
     return null

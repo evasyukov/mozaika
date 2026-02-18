@@ -1,28 +1,53 @@
-import { useEffect } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import styled from "styled-components"
 
 import { ProjectCard } from "../../components"
 import { projectsThunk } from "../../slices/projects/projectsThunk"
 import { selectProjects } from "../../selectors"
+import { debounce } from "./utils/debounce"
 
 function MainContainer({ className }) {
+  const [searchPhrase, setSearchPhrase] = useState("")
+
   const dispatch = useDispatch()
   const projects = useSelector(selectProjects)
-  const status = useSelector((state) => state.projects.status) 
+  const status = useSelector((state) => state.projects.status)
+
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((value) => {
+        dispatch(projectsThunk(value))
+      }, 700),
+    [dispatch],
+  )
+
+  function onSearch(event) {
+    const value = event.target.value
+    setSearchPhrase(value)
+    debouncedSearch(value)
+  }
 
   useEffect(() => {
     dispatch(projectsThunk())
   }, [dispatch])
 
-  if (status === "loading" || !projects) {
+  if (!projects) {
     return <div>Загрузка проектов...</div>
   }
 
+  const loading = <div>Загрузка</div>
+
   return (
     <div className={className}>
+      {status === "loading" && loading}
       <div className="filters">
-        <input type="text" placeholder="Поиск проекта..." />{" "}
+        <input
+          type="text"
+          placeholder="Поиск проекта..."
+          value={searchPhrase}
+          onChange={onSearch}
+        />
         {/* TODO: добавить фильтрацию */}
       </div>
 

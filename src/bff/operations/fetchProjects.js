@@ -1,9 +1,9 @@
 import { getProjects } from "../api"
 
-export async function fetchProjects() {
-  const projects = await getProjects()
+export async function fetchProjects(search ) {
+  const projects = await getProjects(search )
 
-  if (!projects || projects.length === 0) {
+  if (!projects) {
     return { error: "Ошибка запроса. Проектов не найдено :(", response: null }
   }
 
