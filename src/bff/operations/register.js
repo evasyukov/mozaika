@@ -1,7 +1,7 @@
 import { getUserByLogin, addUser } from "../api"
 
-export async function register(regLogin, regPassword) {
-  const user = await getUserByLogin(regLogin)
+export async function register({ data }) {
+  const user = await getUserByLogin(data.login)
 
   if (user) {
     return {
@@ -10,7 +10,7 @@ export async function register(regLogin, regPassword) {
     }
   }
 
-  const newUser = await addUser(regLogin, regPassword)
+  const newUser = await addUser(data)
 
   return {
     error: null,

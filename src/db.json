@@ -45,30 +45,6 @@
           "email: egorka@mail.com"
         ]
       }
-    },
-    {
-      "login": "user",
-      "password": "user2",
-      "profile_visibility": true,
-      "registed_at": "1971-05-08 02:05",
-      "role_id": 1,
-      "id": "mr6FEel"
-    },
-    {
-      "login": "user",
-      "password": "user2",
-      "profile_visibility": true,
-      "registed_at": "1992-09-02 14:05",
-      "role_id": 1,
-      "id": "DM_UYxv"
-    },
-    {
-      "login": "user",
-      "password": "user2",
-      "profile_visibility": true,
-      "registed_at": "1981-03-08 16:43",
-      "role_id": 1,
-      "id": "lxwelCK"
     }
   ],
   "roles": [

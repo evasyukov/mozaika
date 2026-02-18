@@ -93,11 +93,7 @@ function ProjectFormContainer({ className, project, status }) {
       projectId: project?.id,
     }
 
-    dispatch(
-      saveProjectThunk({
-        data: projectData,
-      }),
-    )
+    dispatch(saveProjectThunk({ data: projectData }))
 
     navigate("/profile")
   }

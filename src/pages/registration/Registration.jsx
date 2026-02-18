@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { useSelector, useDispatch } from "react-redux"
 import { Navigate } from "react-router-dom"
@@ -16,30 +16,41 @@ import {
 } from "../../selectors"
 import { ROLE } from "../../constants"
 
-const authFormSchema = yup.object().shape({
-  login: yup
-    .string()
-    .required("Заполните логин")
-    .min(4, "Неверно заполнен логин. Минимум 4 символа")
-    .max(15, "Неверный заполнен логин. Максимум 15 символов")
-    .matches(
-      /^[a-zA-Z0-9]+$/,
-      "Логин может содержать только буквы латинского алфавита и цифры",
-    ),
-  password: yup
-    .string()
-    .required("Заполните пароль")
-    .matches(
-      /^[\w#%]+$/,
-      "Для пароля допускаются следующие символы: A-Z, a-z, 0-9",
-    )
-    .min(5, "Пароль должен быть не менее 5 символов")
-    .max(30, "Неверный заполнен пароль. Максимум 30 символов"),
-  passcheck: yup
-    .string()
-    .required("Введите пароль повторно")
-    .oneOf([yup.ref("password"), null], "Пароли не совпадают"),
-})
+import { StepOne, StepTwo } from "./components"
+
+const authFormSchema = (step) => {
+  if (step === 1) {
+    return yup.object().shape({
+      login: yup
+        .string()
+        .required("Заполните логин")
+        .min(4, "Минимум 4 символа")
+        .max(15, "Максимум 15 символов")
+        .matches(/^[a-zA-Z0-9]+$/, "Только латиница и цифры"),
+
+      password: yup
+        .string()
+        .required("Заполните пароль")
+        .min(5, "Минимум 5 символов")
+        .max(30, "Максимум 30 символов"),
+
+      passcheck: yup
+        .string()
+        .required("Введите пароль повторно")
+        .oneOf([yup.ref("password")], "Пароли не совпадают"),
+    })
+  }
+
+  if (step === 2) {
+    return yup.object().shape({
+      name: yup.string().required("Введите имя"),
+      lastName: yup.string().required("Введите фамилию"),
+      direction: yup.string().required("Выберите направление"),
+    })
+  }
+
+  return yup.object()
+}
 
 function RegistrarionContainer({ className }) {
   const {
@@ -51,92 +62,101 @@ function RegistrarionContainer({ className }) {
       login: "",
       password: "",
       passcheck: "",
+      name: "",
+      lastName: "",
+      direction: "",
     },
-    resolver: yupResolver(authFormSchema),
+    resolver: yupResolver(yup.lazy(() => authFormSchema(step))),
   })
+
+  const [step, setStep] = useState(1)
 
   const dispatch = useDispatch()
   const roleId = useSelector(selectUserRole)
   const status = useSelector(selectAuthStatus)
   const serverError = useSelector(selectAuthError)
 
-  function onSubmit({ login, password }) {
-    dispatch(registerUser({ login, password }))
+  function onSubmit({ login, password, name, lastName, direction }) {
+    if (step === 1) {
+      setStep(2)
+    }
+
+    if (step === 2) {
+      const registerData = { login, password, name, lastName, direction }
+
+      dispatch(registerUser({ data: registerData }))
+    }
   }
 
-  const formError =
-    errors?.login?.message ||
-    errors?.password?.message ||
-    errors?.passcheck?.message
-
+  const formError = Object.values(errors)[0]?.message
   const errorMessage = formError || serverError
 
   if (roleId !== ROLE.GUEST) return <Navigate to="/" />
 
   return (
-    <div className={className}>
-      <form className="auth-card" onSubmit={handleSubmit(onSubmit)}>
-        <H2>Вход в аккаунт</H2>
+    <form className={className} onSubmit={handleSubmit(onSubmit)}>
+      <div className="form-header">
+        {step === 2 && (
+          <button className="back-button" onClick={() => setStep(1)}>
+            ← Назад
+          </button>
+        )}
+        <H2>Регистрация</H2>
+      </div>
 
-        <Input
-          type="text"
-          placeholder="username"
-          title="Логин"
-          {...register("login")}
-        />
-        <Input
-          type="password"
-          placeholder="password"
-          title="Пароль"
-          {...register("password")}
-        />
-        <Input
-          type="password"
-          placeholder="password"
-          title="Введите пароль повторно"
-          {...register("passcheck")}
-        />
+      {step === 1 ? (
+        <>
+          <p className="subtitle">Шаг 1 из 2 — данные для входа</p>
+          <StepOne register={register} />
+        </>
+      ) : (
+        <>
+          <p className="subtitle">Шаг 2 из 2 — информация о пользователе</p>
+          <StepTwo register={register} status={status} formError={formError} />
+        </>
+      )}
 
-        <AuthButton formError={formError} status={status}>
-          {status === "loading" ? "Загрузка..." : "Зарегистрироваться"}
-        </AuthButton>
-
-        {errorMessage && <AuthFormError>{errorMessage}</AuthFormError>}
-      </form>
-    </div>
+      {errorMessage && <AuthFormError>{errorMessage}</AuthFormError>}
+    </form>
   )
 }
 
 export const Registrarion = styled(RegistrarionContainer)`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  width: 400px;
+  padding: 30px;
+
+  background-color: #151821;
+  border: 1px solid #1f2330;
+  border-radius: 10px;
+
   margin-top: 70px;
 
-  .auth-card {
+  .form-header {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-
-    width: 400px;
-    padding: 30px;
-
-    background-color: #151821;
-    border: 1px solid #1f2330;
-    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
   }
 
-  .auth-submit {
-    background-color: #7c7cff;
+  .back-button {
+    position: absolute;
+    left: 0;
+
+    background: none;
     border: none;
-    border-radius: 6px;
-
-    color: #0f1117;
-    font-size: 16px;
-    font-weight: 600;
-
-    padding: 10px;
+    color: #7c7cff;
+    font-size: 14px;
     cursor: pointer;
   }
 
-  .auth-submit:hover {
-    background-color: #8b8bff;
+  .subtitle {
+    margin: 0;
+    font-size: 12px;
+    color: #bfbfbf;
+    text-align: center;
   }
 `

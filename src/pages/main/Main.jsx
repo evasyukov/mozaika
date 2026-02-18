@@ -9,7 +9,7 @@ import { selectProjects } from "../../selectors"
 function MainContainer({ className }) {
   const dispatch = useDispatch()
   const projects = useSelector(selectProjects)
-  const status = useSelector((state) => state.projects.status) // добавим статус
+  const status = useSelector((state) => state.projects.status) 
 
   useEffect(() => {
     dispatch(projectsThunk())

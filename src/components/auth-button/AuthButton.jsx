@@ -23,7 +23,7 @@ export const AuthButton = styled(ButtonContainer)`
   padding: 10px;
   cursor: pointer;
 
-  & :hover {
+  &:hover {
     background-color: #8b8bff;
   }
 

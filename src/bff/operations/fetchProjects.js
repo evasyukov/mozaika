@@ -13,7 +13,6 @@ export async function fetchProjects() {
     title: project.title,
     skills: project.skills,
     authorName: project.user?.profile?.name + ' ' + project.user?.profile?.last_name,
-    // authorLastName: project.user?.profile?.last_name,
     createdAt: project.created_at,
   }))
 

@@ -21,9 +21,7 @@ export const projectThunk = createAsyncThunk(
 export const saveProjectThunk = createAsyncThunk(
   "project/save",
   async ({ data }, { rejectWithValue }) => {
-    const { error, response } = await saveProject({
-      data,
-    })
+    const { error, response } = await saveProject({ data })
 
     if (error) return rejectWithValue(error)
 
