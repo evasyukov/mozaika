@@ -47,9 +47,8 @@ export const ProjectBlock = styled(ProjectBlockContainer)`
   }
 
   .projects {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
   }
 `

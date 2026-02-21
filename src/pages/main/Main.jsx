@@ -86,6 +86,10 @@ export const Main = styled(MainContainer)`
     flex-direction: column;
     align-items: center;
     gap: 32px;
+
+    & > div {
+      width: 760px;
+    }
   }
 
   .filters input {

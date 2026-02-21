@@ -28,12 +28,10 @@ function ProfileBlockContainer({ className, info, isUserProfile }) {
 
           <SkillsBlock skills={info.skills} />
         </div>
-        <div>
+        <div className="profile-settings">
           <Avatar size="140" />
           {isUserProfile && (
-            <div className="profile-settings">
-              <ButtonSecondary>Редактировать профиль</ButtonSecondary>
-            </div>
+            <ButtonSecondary>Редактировать профиль</ButtonSecondary>
           )}
         </div>
       </div>
@@ -54,23 +52,18 @@ export const ProfileBlock = styled(ProfileBlockContainer)`
   border: 1px solid #1f2330;
   border-radius: 12px;
 
-  & .profile-main {
+  .profile-main {
     display: flex;
-    gap: 24px;
 
     width: 100%;
   }
 
-  & .profile-info {
-    flex: 1;
-  }
-
-  & .profile-role {
+  .profile-role {
     font-size: 14px;
     color: #9a9a9a;
   }
 
-  & .profile-description {
+  .profile-description {
     width: 80%;
     margin-top: 8px;
 
@@ -78,10 +71,16 @@ export const ProfileBlock = styled(ProfileBlockContainer)`
     color: #dcdcdc;
   }
 
-  & .profile-contacts {
+  .profile-contacts {
     display: flex;
     gap: 12px;
 
     margin: 24px 0;
+  }
+
+  .profile-settings {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
   }
 `

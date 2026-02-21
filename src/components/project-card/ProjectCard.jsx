@@ -47,15 +47,24 @@ function ProjectContainer({
 export const ProjectCard = styled(ProjectContainer)`
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 
-  width: 800px;
+  // width: 760px;
 
   background-color: #151821;
   border: 1px solid #1f2330;
-  border-radius: 10px;
+  border-radius: 12px;
 
-  padding: 20px;
+  padding: 24px;
+
+  transition:
+    border 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: #7c7cff;
+  }
 
   h2:hover {
     color: #5b45c8;
@@ -64,6 +73,7 @@ export const ProjectCard = styled(ProjectContainer)`
   p {
     font-size: 14px;
     color: #b5b5b5;
+    line-height: 1.6;
   }
 
   .project-footer {
