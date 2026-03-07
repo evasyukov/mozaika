@@ -16,7 +16,7 @@ export function addUser(data) {
       profile: {
         name: data.name,
         last_name: data.lastName,
-        about: data.direction,
+        direction: data.direction,
         description: "",
         skills: [],
         contacts: [],

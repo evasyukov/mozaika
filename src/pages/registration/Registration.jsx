@@ -7,7 +7,7 @@ import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import styled from "styled-components"
 
-import { H2, Input, AuthFormError, AuthButton } from "../../components"
+import { H2, AuthFormError, ButtonBack } from "../../components"
 import { registerUser } from "../../slices/auth/authThunk"
 import {
   selectAuthError,
@@ -96,11 +96,8 @@ function RegistrarionContainer({ className }) {
   return (
     <form className={className} onSubmit={handleSubmit(onSubmit)}>
       <div className="form-header">
-        {step === 2 && (
-          <button className="back-button" onClick={() => setStep(1)}>
-            ← Назад
-          </button>
-        )}
+        {/* TODO: добавить онклик на кнопку назад */}
+        {step === 2 && <ButtonBack />}
         <H2>Регистрация</H2>
       </div>
 
@@ -140,17 +137,6 @@ export const Registrarion = styled(RegistrarionContainer)`
     align-items: center;
     justify-content: center;
     position: relative;
-  }
-
-  .back-button {
-    position: absolute;
-    left: 0;
-
-    background: none;
-    border: none;
-    color: #7c7cff;
-    font-size: 14px;
-    cursor: pointer;
   }
 
   .subtitle {

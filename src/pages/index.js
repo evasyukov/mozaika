@@ -1,4 +1,5 @@
 export * from "./authorization/Authorization"
 export * from "./registration/Registration"
 export * from "./profile/Profile"
+export * from "./profile/components/profile-edit/ProfileEdit"
 export * from "./project/Project"

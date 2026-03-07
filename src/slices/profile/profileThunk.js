@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 
-import { profile } from "../../bff/operations"
+import { profile, updateProfile } from "../../bff/operations"
 
 export const profileIdThunk = createAsyncThunk(
   "profile/fetchById",
@@ -11,6 +11,18 @@ export const profileIdThunk = createAsyncThunk(
       return rejectWithValue(error)
     }
 
+    return response
+  },
+)
+
+// thunk для обновления профиля
+export const updateProfileThunk = createAsyncThunk(
+  "profile/update",
+  async ({ id, formData }, { rejectWithValue }) => {
+    const { error, response } = await updateProfile({ id, formData })
+    if (error) {
+      return rejectWithValue(error)
+    }
     return response
   },
 )

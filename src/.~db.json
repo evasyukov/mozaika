@@ -14,13 +14,14 @@
         "skills": [
           "React",
           "JavsScript",
-          "qwefqwef"
+          "qwefqwef",
+          "цукацукпкерено"
         ],
         "contacts": [
           "telegram: @admin",
           "vk: vk.com/admin"
         ],
-        "profile_visibility": true
+        "profile_visibility": false
       }
     },
     {

@@ -95,7 +95,7 @@ export const Main = styled(MainContainer)`
   .filters input {
     padding: 10px 14px;
 
-    background: #151821;
+    background-color: #151821;
     color: #e6e6e6;
     font-size: 14px;
 

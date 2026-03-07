@@ -1,5 +1,5 @@
 export async function updateProject({ ...updateData }) {
-  const loadedPost = await fetch(
+  const loadedProject = await fetch(
     `http://localhost:3005/projects/${updateData.projectId}`,
     {
       method: "PATCH",
@@ -14,5 +14,5 @@ export async function updateProject({ ...updateData }) {
       }),
     },
   )
-  return await loadedPost.json()
+  return await loadedProject.json()
 }

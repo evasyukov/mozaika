@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { Link } from "react-router-dom"
 
 import {
   H2,
@@ -8,30 +9,32 @@ import {
 } from "../../../../components"
 import { Contacts } from "./components"
 
-function ProfileBlockContainer({ className, info, isUserProfile }) {
+function ProfileBlockContainer({ className, profile, isUserProfile, id }) {
   return (
     <div className={className}>
       <div className="profile-main">
         <div className="profile-info">
           <H2 textAling="left">
-            {info.name} {info.lastName}
+            {profile.name} {profile.lastName}
           </H2>
 
-          <p className="profile-role">{info.about}</p>
-          <p className="profile-description">{info.description}</p>
+          <p className="profile-role">{profile.direction}</p>
+          <p className="profile-description">{profile.description}</p>
 
           <div className="profile-contacts">
-            {info.contacts.map((contact) => {
+            {profile.contacts.map((contact) => {
               return <Contacts key={contact} icon="📧" text={contact} />
             })}
           </div>
 
-          <SkillsBlock skills={info.skills} />
+          <SkillsBlock skills={profile.skills} />
         </div>
         <div className="profile-settings">
           <Avatar size="140" />
           {isUserProfile && (
-            <ButtonSecondary>Редактировать профиль</ButtonSecondary>
+            <Link to={`/profile/${id}/edit`}>
+              <ButtonSecondary>Редактировать профиль</ButtonSecondary>
+            </Link>
           )}
         </div>
       </div>

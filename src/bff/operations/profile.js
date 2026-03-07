@@ -14,10 +14,11 @@ export async function profile(id) {
     profile: {
       name: user.profile.name,
       lastName: user.profile.last_name,
-      about: user.profile.about,
+      direction: user.profile.direction,
       description: user.profile.description,
       contacts: user.profile.contacts,
       skills: user.profile.skills,
+      isPublic: user.profile.profile_visibility,
     },
     projects: projects.map((project) => ({
       id: project.id,

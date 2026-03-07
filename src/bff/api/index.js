@@ -14,3 +14,4 @@ export * from './deleteProject'
 
 // PATCH
 export * from './updateProject'
+export * from './patchProfile'
