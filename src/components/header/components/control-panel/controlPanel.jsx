@@ -61,5 +61,16 @@ export const ControlPanel = styled(ControlPanelContainer)`
     height: 100%;
 
     padding: 8px 16px;
+    
+    background-color: #1f2330;
+    color: #e6e6e6;
+
+    border-radius: 6px;
+    border: 1px solid #2a2f45;
+    text-decoration: none;
+
+    &:hover {
+      background-color: #262b3d;
+    }
   }
 `
