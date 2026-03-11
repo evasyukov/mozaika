@@ -119,9 +119,9 @@ function ProfileEditContainer({ className, profileInfo }) {
 
         <FormSection label="Направление">
           <select {...register("direction")}>
-            <option>Frontend-разработчик</option>
-            <option>Backend-разработчик</option>
-            <option>Fullstack-разработчик</option>
+            <option>Frontend разработчик</option>
+            <option>Backend разработчик</option>
+            <option>Fullstack разработчик</option>
           </select>
         </FormSection>
 

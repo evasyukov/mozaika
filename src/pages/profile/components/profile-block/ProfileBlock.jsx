@@ -57,6 +57,7 @@ export const ProfileBlock = styled(ProfileBlockContainer)`
 
   .profile-main {
     display: flex;
+    justify-content: space-between;
 
     width: 100%;
   }
@@ -85,5 +86,6 @@ export const ProfileBlock = styled(ProfileBlockContainer)`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    align-items: center;
   }
 `
