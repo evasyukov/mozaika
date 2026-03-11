@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import styled from "styled-components"
 
 import { ProjectCard } from "../../components"
-import { projectsThunk } from "../../slices/projects/projectsThunk"
+import { projectsThunk } from "../../slices/projects/projectsSlice"
 import { selectProjects } from "../../selectors"
 import { debounce } from "./utils/debounce"
 

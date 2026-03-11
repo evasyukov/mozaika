@@ -4,7 +4,7 @@ import { Navigate, useMatch, useParams } from "react-router-dom"
 import styled from "styled-components"
 
 import { ProfileBlock, ProfileEdit, ProjectBlock } from "./components"
-import { selectUserRole, selectUserId, selectUserInfo } from "../../selectors"
+import { selectAuthUser, selectUserInfo } from "../../selectors"
 import { ROLE } from "../../constants"
 import { profileIdThunk } from "../../slices/profile/profileThunk"
 import { checkIsUserProfile } from "../../utils"
@@ -13,8 +13,7 @@ function ProfileContainer({ className }) {
   const { id } = useParams()
   const dispatch = useDispatch()
 
-  const authUserId = useSelector(selectUserId)
-  const roleId = useSelector(selectUserRole)
+  const auth = useSelector(selectAuthUser)
 
   const profile = useSelector(selectUserInfo)
   const status = useSelector((state) => state.profile.status)
@@ -22,15 +21,14 @@ function ProfileContainer({ className }) {
 
   const isEditing = !!useMatch("/profile/:id/edit")
 
-  const profileId = id ?? authUserId
-
-  const isUserProfile = checkIsUserProfile(authUserId, id)
+  const profileId = id ?? auth.id
+  const isUserProfile = checkIsUserProfile(auth.id, id)
 
   useEffect(() => {
     if (profileId) dispatch(profileIdThunk(profileId))
   }, [profileId, dispatch])
 
-  if (roleId === ROLE.GUEST) return <Navigate to="/authorization" />
+  if (auth.roleId === ROLE.GUEST) return <Navigate to="/authorization" />
   if (status === "loading") return <div>Загрузка профиля...</div>
   if (status === "failed") return <div>{error}</div>
   if (!profile) return null

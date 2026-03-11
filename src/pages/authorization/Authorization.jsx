@@ -8,12 +8,8 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import styled from "styled-components"
 
 import { H2, Input, AuthFormError, AuthButton } from "../../components"
-import { authorizeUser } from "../../slices/auth/authThunk"
-import {
-  selectAuthError,
-  selectAuthStatus,
-  selectUserRole,
-} from "../../selectors"
+import { authorizeUser } from "../../slices/auth/authSlice"
+import { selectAuthUser } from "../../selectors"
 import { ROLE } from "../../constants"
 
 const authFormSchema = yup.object().shape({
@@ -48,9 +44,7 @@ function AuthorizationContainer({ className }) {
   })
 
   const dispatch = useDispatch()
-  const roleId = useSelector(selectUserRole)
-  const status = useSelector(selectAuthStatus)
-  const serverError = useSelector(selectAuthError)
+  const { error, roleId, status } = useSelector(selectAuthUser)
 
   function onSubmit({ login, password }) {
     dispatch(authorizeUser({ login, password }))
@@ -58,7 +52,7 @@ function AuthorizationContainer({ className }) {
 
   const formError = errors?.login?.message || errors?.password?.message
 
-  const errorMessage = formError || serverError
+  const errorMessage = formError || error
 
   if (roleId !== ROLE.GUEST) return <Navigate to="/" />
 

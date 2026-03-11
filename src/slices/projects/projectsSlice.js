@@ -1,5 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit"
-import { projectsThunk } from "./projectsThunk"
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { fetchProjects } from "../../bff/operations"
+import {
+  handlePending,
+  handleRejected,
+  handleFulfilledArray,
+} from "../handlers"
+
+export const projectsThunk = createAsyncThunk(
+  "projects/fetchAll",
+  async (search, { rejectWithValue }) => {
+    const { error, response } = await fetchProjects(search)
+    if (error) return rejectWithValue(error)
+    return response
+  },
+)
 
 const initialState = {
   data: [],
@@ -11,28 +25,15 @@ const projectsSlice = createSlice({
   name: "projects",
   initialState,
   reducers: {
-    resetProjectsData: (state) => {
-      state.data = null
-      state.status = "idle"
-      state.error = null
-    },
+    resetProjectsData: () => initialState,
   },
   extraReducers: (builder) => {
     builder
-      .addCase(projectsThunk.pending, (state) => {
-        state.status = "loading"
-        state.error = null
-      })
-      .addCase(projectsThunk.fulfilled, (state, action) => {
-        state.status = "succeeded"
-        state.data = action.payload
-      })
-      .addCase(projectsThunk.rejected, (state, action) => {
-        state.status = "failed"
-        state.error = action.payload
-      })
+      .addCase(projectsThunk.pending, handlePending)
+      .addCase(projectsThunk.fulfilled, handleFulfilledArray)
+      .addCase(projectsThunk.rejected, handleRejected)
   },
 })
 
-export const { resetProjectData } = projectsSlice.actions
+export const { resetProjectsData } = projectsSlice.actions
 export default projectsSlice.reducer

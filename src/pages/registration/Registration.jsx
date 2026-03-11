@@ -8,12 +8,8 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import styled from "styled-components"
 
 import { H2, AuthFormError, ButtonBack } from "../../components"
-import { registerUser } from "../../slices/auth/authThunk"
-import {
-  selectAuthError,
-  selectAuthStatus,
-  selectUserRole,
-} from "../../selectors"
+import { registerUser } from "../../slices/auth/authSlice"
+import { selectAuthUser } from "../../selectors"
 import { ROLE } from "../../constants"
 
 import { StepOne, StepTwo } from "./components"
@@ -72,9 +68,7 @@ function RegistrarionContainer({ className }) {
   const [step, setStep] = useState(1)
 
   const dispatch = useDispatch()
-  const roleId = useSelector(selectUserRole)
-  const status = useSelector(selectAuthStatus)
-  const serverError = useSelector(selectAuthError)
+  const { error, roleId } = useSelector(selectAuthUser)
 
   function onSubmit({ login, password, name, lastName, direction }) {
     if (step === 1) {
@@ -89,7 +83,7 @@ function RegistrarionContainer({ className }) {
   }
 
   const formError = Object.values(errors)[0]?.message
-  const errorMessage = formError || serverError
+  const errorMessage = formError || error
 
   if (roleId !== ROLE.GUEST) return <Navigate to="/" />
 

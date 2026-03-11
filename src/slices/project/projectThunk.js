@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 
-import { selectUserId } from "../../selectors"
+import { selectAuthUser } from "../../selectors"
 import { fetchProject, removeProject, saveProject } from "../../bff/operations"
 
 // получение проекта
@@ -33,7 +33,7 @@ export const saveProjectThunk = createAsyncThunk(
 export const deleteProjectThunk = createAsyncThunk(
   "project/delete",
   async ({ projectId, authorId }, { getState, rejectWithValue }) => {
-    const authUserId = selectUserId(getState())
+    const authUserId = selectAuthUser(getState())?.id
 
     const { error, response } = await removeProject(
       projectId,

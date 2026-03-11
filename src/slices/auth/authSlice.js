@@ -1,8 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit"
-
-import { authorizeUser, registerUser } from "./authThunk"
-import { authReducer } from "./authReducer"
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { authorize, register } from "../../bff/operations"
 import { ROLE } from "../../constants"
+import { handlePending, handleRejected } from "../handlers"
+import { handleAuthSuccess } from "../handlers" 
+
+export const authorizeUser = createAsyncThunk(
+  "auth/authorizeUser",
+  async ({ login, password }, { rejectWithValue }) => {
+    const { error, response } = await authorize(login, password)
+    if (error) return rejectWithValue(error)
+    return response
+  },
+)
+
+export const registerUser = createAsyncThunk(
+  "auth/registerUser",
+  async ({ data }, { rejectWithValue }) => {
+    const { error, response } = await register(data)
+    if (error) return rejectWithValue(error)
+    return response
+  },
+)
 
 const initialState = {
   id: null,
@@ -22,7 +40,6 @@ const authSlice = createSlice({
       sessionStorage.removeItem("userData")
       return { ...initialState, isInitialized: true }
     },
-
     setUserFromStorage(state, action) {
       return {
         ...state,
@@ -32,7 +49,6 @@ const authSlice = createSlice({
         isInitialized: true,
       }
     },
-
     setAuthInitialized(state) {
       state.isInitialized = true
     },
@@ -40,18 +56,17 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // авторизация
-      .addCase(authorizeUser.pending, authReducer.setLoading)
-      .addCase(authorizeUser.fulfilled, authReducer.authSuccess)
-      .addCase(authorizeUser.rejected, authReducer.setError)
+      .addCase(authorizeUser.pending, handlePending)
+      .addCase(authorizeUser.fulfilled, handleAuthSuccess)
+      .addCase(authorizeUser.rejected, handleRejected)
 
       // регистрация
-      .addCase(registerUser.pending, authReducer.setLoading)
-      .addCase(registerUser.fulfilled, authReducer.authSuccess)
-      .addCase(registerUser.rejected, authReducer.setError)
+      .addCase(registerUser.pending, handlePending)
+      .addCase(registerUser.fulfilled, handleAuthSuccess)
+      .addCase(registerUser.rejected, handleRejected)
   },
 })
 
 export const { logout, setUserFromStorage, setAuthInitialized } =
   authSlice.actions
-
 export default authSlice.reducer

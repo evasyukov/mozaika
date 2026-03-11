@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { profileIdThunk, updateProfileThunk } from "./profileThunk"
+import {
+  handlePending,
+  handleRejected,
+  handleFulfilledObject,
+} from "../handlers"
 
 const initialState = {
   data: null,
@@ -16,26 +21,14 @@ const profileSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // получение профиля
     builder
-      .addCase(profileIdThunk.pending, (state) => {
-        state.status = "loading"
-        state.error = null
-      })
-      .addCase(profileIdThunk.fulfilled, (state, action) => {
-        state.data = action.payload
-        state.status = "succeeded"
-      })
-      .addCase(profileIdThunk.rejected, (state, action) => {
-        state.status = "failed"
-        state.error = action.payload
-      })
+      // получение профиля
+      .addCase(profileIdThunk.pending, handlePending)
+      .addCase(profileIdThunk.fulfilled, handleFulfilledObject)
+      .addCase(profileIdThunk.rejected, handleRejected)
 
       // обновление профиля
-      .addCase(updateProfileThunk.pending, (state) => {
-        state.status = "loading"
-        state.error = null
-      })
+      .addCase(updateProfileThunk.pending, handlePending)
       .addCase(updateProfileThunk.fulfilled, (state, action) => {
         state.data = {
           ...state.data,
@@ -43,10 +36,7 @@ const profileSlice = createSlice({
         }
         state.status = "succeeded"
       })
-      .addCase(updateProfileThunk.rejected, (state, action) => {
-        state.status = "failed"
-        state.error = action.payload
-      })
+      .addCase(updateProfileThunk.rejected, handleRejected)
   },
 })
 

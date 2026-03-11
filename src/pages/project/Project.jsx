@@ -3,13 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Navigate, useParams, useMatch } from "react-router-dom"
 import styled from "styled-components"
 
-import {
-  selectProjectData,
-  selectProjectStatus,
-  selectProjectError,
-  selectUserRole,
-  selectUserId,
-} from "../../selectors"
+import { selectProjectData, selectAuthUser } from "../../selectors"
 import { projectThunk } from "../../slices/project/projectThunk"
 import { ROLE } from "../../constants"
 import { resetProjectData } from "../../slices/project/projectSlice"
@@ -23,12 +17,8 @@ function ProjectContainer({ className }) {
   const isCreating = !!useMatch("/project")
   const isEditing = !!useMatch("/project/:id/edit")
 
-  const data = useSelector(selectProjectData)
-  const status = useSelector(selectProjectStatus)
-  const error = useSelector(selectProjectError)
-
-  const roleId = useSelector(selectUserRole)
-  const authUserId = useSelector(selectUserId)
+  const { data, status, error } = useSelector(selectProjectData)
+  const { roleId, id } = useSelector(selectAuthUser)
 
   useLayoutEffect(() => {
     if (isCreating) {
@@ -54,7 +44,7 @@ function ProjectContainer({ className }) {
 
   const project = data?.project
   const author = data?.author
-  const isAuthor = author && authUserId === author.id
+  const isAuthor = author && id === author.id
 
   const SpecificProjectPage =
     isCreating || isEditing ? (

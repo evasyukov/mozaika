@@ -16,7 +16,7 @@ import {
 } from "../../../../components"
 import { FormSection, ContactsBlock } from "./components"
 import { updateProfileThunk } from "../../../../slices/profile/profileThunk"
-import { selectUserId } from "../../../../selectors"
+import { selectAuthUser } from "../../../../selectors"
 
 const editingSchema = yup.object().shape({
   name: yup
@@ -52,7 +52,7 @@ function ProfileEditContainer({ className, profileInfo }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const authUserId = useSelector(selectUserId)
+  const auth = useSelector(selectAuthUser)
 
   const [skillsState, setSkillsState] = useState([])
   const [newSkill, setNewSkill] = useState("")
@@ -88,7 +88,7 @@ function ProfileEditContainer({ className, profileInfo }) {
 
     dispatch(
       updateProfileThunk({
-        id: authUserId,
+        id: auth.id,
         formData: profileData,
       }),
     )

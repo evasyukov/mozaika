@@ -10,7 +10,7 @@ import styled from "styled-components"
 import { H2, Input, ButtonPrimary, AuthFormError } from "../../../../components"
 import { AddSkills } from "./components/AddSkills"
 import { saveProjectThunk } from "../../../../slices/project/projectThunk"
-import { selectUserId } from "../../../../selectors"
+import { selectAuthUser } from "../../../../selectors"
 
 const projectFormSchema = yup.object().shape({
   name: yup
@@ -44,8 +44,9 @@ function ProjectFormContainer({ className, project, status }) {
   })
 
   const dispatch = useDispatch()
-  const authUserId = useSelector(selectUserId)
   const navigate = useNavigate()
+
+  const auth = useSelector(selectAuthUser)
 
   const [description, setDescription] = useState("")
   const [skills, setSkills] = useState([])
@@ -89,7 +90,7 @@ function ProjectFormContainer({ className, project, status }) {
       title,
       description,
       skills,
-      authUserId,
+      authUserId: auth.id,
       projectId: project?.id,
     }
 

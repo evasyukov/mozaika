@@ -3,13 +3,11 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 
-import { selectUserRole, selectUserInfo } from "../../../../selectors"
 import { logout } from "../../../../slices/auth/authSlice"
-import { ROLE } from "../../../../constants"
+import { selectAuthUser } from "../../../../selectors/selectAuthorize"
 
 function ControlPanelContainer({ className }) {
-  const roleId = useSelector(selectUserRole)
-  const profile = useSelector(selectUserInfo)
+  const { id, login } = useSelector(selectAuthUser)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -32,50 +30,52 @@ function ControlPanelContainer({ className }) {
     setIsOpen(false)
   }
 
-  if (!profile) return null
-
-  return (
-    <div className={className} ref={menuRef}>
-      {roleId !== ROLE.GUEST ? (
-        <div className="menu-wrapper">
-          <button
-            type="button"
-            className="menu-button"
-            onClick={() => setIsOpen((prev) => !prev)}
-          >
-            {profile.profile.name + " " + profile.profile.lastName} ▾
-          </button>
-
-          {isOpen && (
-            <div className="dropdown">
-              <Link
-                to="/profile"
-                className="dropdown-item"
-                onClick={() => setIsOpen(false)}
-              >
-                Профиль
-              </Link>
-              <Link
-                to="/project"
-                className="dropdown-item"
-                onClick={() => setIsOpen(false)}
-              >
-                Создать проект
-              </Link>
-              <button
-                className="dropdown-item logout-item"
-                onClick={handleLogout}
-              >
-                Выход
-              </button>
-            </div>
-          )}
-        </div>
-      ) : (
+  if (!id) {
+    return (
+      <div className={className}>
         <div className="auth-button">
           <Link to="/authorization">Авторизация</Link>
         </div>
-      )}
+      </div>
+    )
+  }
+
+  return (
+    <div className={className} ref={menuRef}>
+      <div className="menu-wrapper">
+        <button
+          type="button"
+          className="menu-button"
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
+          {login} ▾
+        </button>
+
+        {isOpen && (
+          <div className="dropdown">
+            <Link
+              to="/profile"
+              className="dropdown-item"
+              onClick={() => setIsOpen(false)}
+            >
+              Профиль
+            </Link>
+            <Link
+              to="/project"
+              className="dropdown-item"
+              onClick={() => setIsOpen(false)}
+            >
+              Создать проект
+            </Link>
+            <button
+              className="dropdown-item logout-item"
+              onClick={handleLogout}
+            >
+              Выход
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

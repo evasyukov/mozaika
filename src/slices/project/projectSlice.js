@@ -4,6 +4,11 @@ import {
   saveProjectThunk,
   deleteProjectThunk,
 } from "./projectThunk"
+import {
+  handlePending,
+  handleRejected,
+  handleFulfilledObject,
+} from "../handlers"
 
 const initialState = {
   data: null,
@@ -15,54 +20,26 @@ const projectSlice = createSlice({
   name: "project",
   initialState,
   reducers: {
-    resetProjectData: (state) => {
-      state.data = null
-      state.status = "idle"
-      state.error = null
-    },
+    resetProjectData: () => initialState,
   },
   extraReducers: (builder) => {
     builder
-      // получаем проект
-      .addCase(projectThunk.pending, (state) => {
-        state.status = "loading"
-        state.error = null
-      })
-      .addCase(projectThunk.fulfilled, (state, action) => {
-        state.status = "succeeded"
-        state.data = action.payload
-      })
-      .addCase(projectThunk.rejected, (state, action) => {
-        state.status = "failed"
-        state.error = action.payload
-      })
+      .addCase(projectThunk.pending, handlePending)
+      .addCase(projectThunk.fulfilled, handleFulfilledObject)
+      .addCase(projectThunk.rejected, handleRejected)
 
-      // создание и обновление проекта
-      .addCase(saveProjectThunk.pending, (state) => {
-        state.status = "loading"
-        state.error = null
-      })
+      .addCase(saveProjectThunk.pending, handlePending)
       .addCase(saveProjectThunk.fulfilled, (state) => {
         state.status = "succeeded"
       })
-      .addCase(saveProjectThunk.rejected, (state, action) => {
-        state.status = "failed"
-        state.error = action.payload
-      })
+      .addCase(saveProjectThunk.rejected, handleRejected)
 
-      // удаление проекта
-      .addCase(deleteProjectThunk.pending, (state) => {
-        state.status = "loading"
-        state.error = null
-      })
+      .addCase(deleteProjectThunk.pending, handlePending)
       .addCase(deleteProjectThunk.fulfilled, (state) => {
         state.status = "succeeded"
         state.data = null
       })
-      .addCase(deleteProjectThunk.rejected, (state, action) => {
-        state.status = "failed"
-        state.error = action.payload
-      })
+      .addCase(deleteProjectThunk.rejected, handleRejected)
   },
 })
 
