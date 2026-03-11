@@ -17,7 +17,6 @@ export async function register(data) {
     response: {
       id: newUser.id,
       login: newUser.login,
-      profileVisibility: newUser.profile_visibility,
       roleId: newUser.role_id,
       session: Date.now(),
     },

@@ -11,16 +11,8 @@
         "last_name": "",
         "direction": "Главный разработчик",
         "description": "Изучаю frontend, люблю архитектуру интерфейсов и аккуратный код. Ищу команду для учебных и pet-проектов. Открыт к обмену опытом и готов вкладываться в совместные инициативы. Хочу развиваться в направлении создания удобных и эстетичных пользовательских решений.",
-        "skills": [
-          "React",
-          "JavsScript",
-          "qwefqwef"
-        ],
-        "contacts": [
-          "telegram: @admin",
-          "vk: vk.com/admin"
-        ],
-        "profile_visibility": true
+        "skills": ["React", "JavsScript", "qwefqwef"],
+        "contacts": ["telegram: @admin", "vk: vk.com/admin"]
       }
     },
     {
@@ -34,16 +26,8 @@
         "last_name": "Васюков",
         "direction": "Frontend-разработчик",
         "description": "Погружаюсь в мир фронтенда: мне нравится проектировать интерфейсы и писать аккуратный, понятный код. Ищу партнёров для совместных пет‑проектов и обучения на практике.",
-        "skills": [
-          "HTML",
-          "CSS",
-          "JavsScript"
-        ],
-        "contacts": [
-          "telegram: @egorka",
-          "email: egorka@mail.com"
-        ],
-        "profile_visibility": true
+        "skills": ["HTML", "CSS", "JavsScript"],
+        "contacts": ["telegram: @egorka", "email: egorka@mail.com"]
       }
     }
   ],
@@ -68,11 +52,7 @@
       "title": "Платформа для совместных проектов",
       "description": "Сайт для поиска команды для учебных проектов. Можно набирать команду в свой проект, или присоединиться к другому проекту",
       "userId": "001",
-      "skills": [
-        "React",
-        "Redux",
-        "JavaScript"
-      ],
+      "skills": ["React", "Redux", "JavaScript"],
       "created_at": "2025-01-15"
     },
     {
@@ -81,11 +61,7 @@
       "title": "Список задач22333",
       "description": "Приложение для создания задач, отслеживания времени затрат на задачи и их завершения333",
       "userId": "001",
-      "skills": [
-        "Java",
-        "Kotlin",
-        "PHP"
-      ],
+      "skills": ["Java", "Kotlin", "PHP"],
       "created_at": "2025-01-15"
     },
     {
@@ -94,18 +70,14 @@
       "title": "Мини-игра крестили нолики",
       "description": "Мини-игра, где вы можете сыграть в крестили нолики со своим другом",
       "userId": "002",
-      "skills": [
-        "Python"
-      ],
+      "skills": ["Python"],
       "created_at": "2025-01-15"
     },
     {
       "name": "Змейка",
       "title": "Игра змейка онлайн",
       "description": "Мобильная игра змейка. Нужно съесть фрукты и овощи, чтобы расти и набирать очки. Можно соревноваться в таблице лидеров с другими игроками",
-      "skills": [
-        "Kotlin"
-      ],
+      "skills": ["Kotlin"],
       "userId": "001",
       "created_at": "2026-01-31",
       "id": "7lBHwF1"
@@ -115,9 +87,7 @@
       "title": "Краткое описание проекта",
       "description": "Длинное описание проекта с его идеей ",
       "userId": "001",
-      "skills": [
-        "Навык"
-      ],
+      "skills": ["Навык"],
       "created_at": "1971-10-28 17:49",
       "id": "ABgJ41A"
     }

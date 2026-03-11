@@ -11,7 +11,6 @@ export async function updateProfile({ id, formData }) {
         description: formData.description,
         skills: formData.skills,
         contacts: formData.contacts,
-        profile_visibility: formData.isPublic,
       },
     })
 

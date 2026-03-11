@@ -14,7 +14,7 @@ import {
   ButtonBack,
   AuthFormError,
 } from "../../../../components"
-import { FormSection, ContactsBlock, ToggleProfile } from "./components"
+import { FormSection, ContactsBlock } from "./components"
 import { updateProfileThunk } from "../../../../slices/profile/profileThunk"
 import { selectUserId } from "../../../../selectors"
 
@@ -36,7 +36,6 @@ function ProfileEditContainer({ className, profileInfo }) {
     register,
     handleSubmit,
     reset,
-    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -46,7 +45,6 @@ function ProfileEditContainer({ className, profileInfo }) {
       description: "",
       skills: [],
       contacts: [],
-      isPublic: true,
     },
     resolver: yupResolver(editingSchema),
   })
@@ -67,10 +65,9 @@ function ProfileEditContainer({ className, profileInfo }) {
 
     reset({
       name: profileInfo.name,
-      lastName: profileInfo.last_name || "",
-      direction: profileInfo.direction || "Frontend",
+      lastName: profileInfo.lastName,
+      direction: profileInfo.direction,
       description: profileInfo.description || "",
-      isPublic: profileInfo.profile_visibility ?? true,
     })
 
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -122,9 +119,9 @@ function ProfileEditContainer({ className, profileInfo }) {
 
         <FormSection label="Направление">
           <select {...register("direction")}>
-            <option>Frontend</option>
-            <option>Backend</option>
-            <option>Fullstack</option>
+            <option>Frontend-разработчик</option>
+            <option>Backend-разработчик</option>
+            <option>Fullstack-разработчик</option>
           </select>
         </FormSection>
 
@@ -185,13 +182,6 @@ function ProfileEditContainer({ className, profileInfo }) {
               +
             </button>
           </div>
-        </FormSection>
-
-        <FormSection>
-          <ToggleProfile
-            {...register("isPublic")}
-            onChange={(e) => setValue("isPublic", e.target.checked)}
-          />
         </FormSection>
 
         <div className="form-actions">
