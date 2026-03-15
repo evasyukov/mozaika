@@ -8,7 +8,7 @@ import {
   Registrarion,
   Profile,
   Project,
-  ProfileEdit,
+  Users
 } from "./pages"
 import { useInitAuth } from "./hooks"
 import { selectIsAuthInitialized } from "./selectors"
@@ -38,6 +38,8 @@ export default function Mozaika() {
           <Route path="/project" element={<Project />} />
           <Route path="/project/:id" element={<Project />} />
           <Route path="/project/:id/edit" element={<Project />} />
+
+          <Route path="/users" element={<Users />} />
 
           <Route path="*" element={<div>Ошибка</div>} />
         </Routes>
