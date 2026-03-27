@@ -2,10 +2,28 @@ import mongoose from "mongoose"
 
 const profileSchema = new mongoose.Schema(
   {
-    name: String,
-    last_name: String,
-    direction: String,
-    description: String,
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    last_name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    direction: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    description: {
+      type: String,
+      default: "",
+    },
 
     skills: {
       type: [String],
@@ -37,17 +55,16 @@ const userSchema = new mongoose.Schema(
       enum: ["user", "admin"],
       default: "user",
     },
-    registered_at: {
-      type: Date,
-      default: Date.now,
-    },
     profile: {
       type: profileSchema,
-      default: {},
+      required: true,
     },
   },
   {
-    timestamps: true,
+    timestamps: {
+      createdAt: "registered_at",
+      updatedAt: false,
+    },
   },
 )
 

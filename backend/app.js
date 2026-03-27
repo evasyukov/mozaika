@@ -1,12 +1,13 @@
+import dotenv from "dotenv"
+dotenv.config()
+
 import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import mongoose from "mongoose"
-import dotenv from "dotenv"
 
 import projectRoutes from "./routes/projectRoutes.js"
-
-dotenv.config()
+import authRoutes from "./routes/authRoutes.js"
 
 const app = express()
 const port = process.env.PORT || 5007
@@ -21,10 +22,7 @@ app.use(
   }),
 )
 
-// тестовый роут
-app.get("/", (req, res) => {
-  res.send("API is working")
-})
+app.use("/", authRoutes)
 
 app.use("/projects", projectRoutes)
 
