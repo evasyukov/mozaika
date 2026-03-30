@@ -5,7 +5,7 @@ import styled from "styled-components"
 
 import { selectProjectData, selectAuthUser } from "../../selectors"
 import { projectThunk } from "../../slices/project/projectThunk"
-import { ROLE } from "../../constants"
+import { ROLES } from "../../constants"
 import { resetProjectData } from "../../slices/project/projectSlice"
 
 import { ProjectContent, ProjectForm } from "./components"
@@ -32,7 +32,7 @@ function ProjectContainer({ className }) {
     }
   }, [params.id, isCreating, dispatch])
 
-  if (roleId === ROLE.GUEST) {
+  if (roleId === ROLES.GUEST) {
     return <Navigate to="/authorization" />
   }
 

@@ -1,5 +1,7 @@
 import bcrypt from "bcrypt"
+
 import User from "../models/User.js"
+import { mapUser } from "../helpers/mapUser.js"
 import { generateToken } from "../middlewares/token.js"
 
 export const register = async (req, res) => {
@@ -56,15 +58,7 @@ export const register = async (req, res) => {
         maxAge: 30 * 24 * 60 * 60 * 1000,
       })
       .status(201)
-      .json({
-        user: {
-          id: user._id,
-          login: user.login,
-          role: user.role,
-          profile: user.profile,
-          registered_at: user.registered_at,
-        },
-      })
+      .json(mapUser(user))
   } catch (error) {
     console.error("Ошибка при регистрации:", error)
     res.status(500).json({
@@ -103,15 +97,7 @@ export const login = async (req, res) => {
         maxAge: 30 * 24 * 60 * 60 * 1000,
       })
       .status(200)
-      .json({
-        user: {
-          id: user._id,
-          login: user.login,
-          role: user.role,
-          profile: user.profile,
-          registered_at: user.registered_at,
-        },
-      })
+      .json(mapUser(user))
   } catch (error) {
     console.error("Ошибка при логине:", error)
     res.status(500).json({ error: "Ошибка авторизации" })

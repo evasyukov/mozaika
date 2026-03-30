@@ -8,6 +8,7 @@ import mongoose from "mongoose"
 
 import projectRoutes from "./routes/projectRoutes.js"
 import authRoutes from "./routes/authRoutes.js"
+import userRoutes from "./routes/userRoutes.js"
 
 const app = express()
 const port = process.env.PORT || 5007
@@ -26,13 +27,14 @@ app.use("/", authRoutes)
 
 app.use("/projects", projectRoutes)
 
+app.use("/profile", userRoutes)
+
 // запуск сервера и подключение к бд
 const server = async () => {
   try {
     await mongoose.connect(process.env.DB_CONNECTION_STRING)
 
     console.log("MongoDB connected")
-
     app.listen(port, () => {
       console.log(`Сервер запущен на порту ${port}`)
     })

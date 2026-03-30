@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { authorize, register } from "../../bff/operations"
-import { ROLE } from "../../constants"
+import { ROLES } from "../../constants"
 import { handlePending, handleRejected } from "../handlers"
 import { handleAuthSuccess } from "../handlers" 
 
@@ -25,7 +25,7 @@ export const registerUser = createAsyncThunk(
 const initialState = {
   id: null,
   login: null,
-  roleId: ROLE.GUEST,
+  roleId: ROLES.GUEST,
   session: null,
   status: "idle",
   error: null,

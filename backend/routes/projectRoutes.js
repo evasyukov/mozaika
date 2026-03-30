@@ -1,4 +1,5 @@
 import express from "express"
+
 import {
   getProjects,
   getProjectById,
@@ -6,16 +7,17 @@ import {
   updateProject,
   deleteProject,
 } from "../controllers/projectController.js"
+import { authenticate } from "../middlewares/authenticate.js"
 
 const router = express.Router()
 
 router.get("/", getProjects)
 router.get("/:id", getProjectById)
 
-router.post("/", createProject)
+router.post("/", authenticate, createProject)
 
-router.patch("/:id", updateProject)
+router.patch("/:id", authenticate, updateProject)
 
-router.delete("/:id", deleteProject)
+router.delete("/:id", authenticate, deleteProject)
 
 export default router

@@ -10,7 +10,7 @@ import styled from "styled-components"
 import { H2, Input, AuthFormError, AuthButton } from "../../components"
 import { authorizeUser } from "../../slices/auth/authSlice"
 import { selectAuthUser } from "../../selectors"
-import { ROLE } from "../../constants"
+import { ROLES } from "../../constants"
 
 const authFormSchema = yup.object().shape({
   login: yup
@@ -54,7 +54,7 @@ function AuthorizationContainer({ className }) {
 
   const errorMessage = formError || error
 
-  if (roleId !== ROLE.GUEST) return <Navigate to="/" />
+  if (roleId !== ROLES.GUEST) return <Navigate to="/" />
 
   return (
     <div className={className}>

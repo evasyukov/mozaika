@@ -10,7 +10,7 @@ import styled from "styled-components"
 import { H2, AuthFormError, ButtonBack } from "../../components"
 import { registerUser } from "../../slices/auth/authSlice"
 import { selectAuthUser } from "../../selectors"
-import { ROLE } from "../../constants"
+import { ROLES } from "../../constants"
 
 import { StepOne, StepTwo } from "./components"
 
@@ -85,7 +85,7 @@ function RegistrarionContainer({ className }) {
   const formError = Object.values(errors)[0]?.message
   const errorMessage = formError || error
 
-  if (roleId !== ROLE.GUEST) return <Navigate to="/" />
+  if (roleId !== ROLES.GUEST) return <Navigate to="/" />
 
   return (
     <form className={className} onSubmit={handleSubmit(onSubmit)}>

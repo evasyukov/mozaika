@@ -5,7 +5,7 @@ import styled from "styled-components"
 import { H2 } from "../../components"
 import { usersThunk, deleteUserThunk } from "../../slices/users/usersSlice"
 import { selectUsers, selectAuthUser } from "../../selectors"
-import { ROLE } from "../../constants"
+import { ROLES } from "../../constants"
 
 function UsersContainer({ className }) {
   const dispatch = useDispatch()
@@ -22,7 +22,7 @@ function UsersContainer({ className }) {
     }
   }
 
-  if (roleId !== ROLE.ADMIN) {
+  if (roleId !== ROLES.ADMIN) {
     return <div>Доступ запрещён</div>
   }
 

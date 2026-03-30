@@ -6,6 +6,6 @@ export function mapProject(project) {
     description: project.description,
     skills: project.skills,
     userId: project.userId?.toString(),
-    createdAt: project.created_at,
+    createdAt: project.created_at.toISOString().split("T")[0],
   }
 }
