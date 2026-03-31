@@ -1,12 +1,7 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 
-import {
-  H2,
-  ButtonSecondary,
-  SkillsBlock,
-  Avatar,
-} from "../../../../components"
+import { H2, ButtonSecondary, SkillsBlock } from "../../../../components"
 import { Contacts } from "./components"
 
 function ProfileBlockContainer({ className, profile, isUserProfile, id }) {
@@ -29,14 +24,13 @@ function ProfileBlockContainer({ className, profile, isUserProfile, id }) {
 
           <SkillsBlock skills={profile.skills} />
         </div>
-        <div className="profile-settings">
-          <Avatar size="140" />
-          {isUserProfile && (
+        {isUserProfile && (
+          <div className="profile-settings">
             <Link to={`/profile/${id}/edit`}>
               <ButtonSecondary>Редактировать профиль</ButtonSecondary>
             </Link>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   )
@@ -84,8 +78,6 @@ export const ProfileBlock = styled(ProfileBlockContainer)`
 
   .profile-settings {
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
+    align-items: flex-end;
   }
 `

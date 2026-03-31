@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import styled from "styled-components"
 
-import { Avatar, H2 } from "../../../../components"
+import { H2 } from "../../../../components"
 import {
   ButtonSecondary,
   ButtonDelete,
@@ -60,12 +60,11 @@ function ProjectContentContainer({ className, project, author, isAuthor }) {
         <H2 textAling="left" margin="0 0 12px 0">
           Автор проекта
         </H2>
-        <div className="author">
-          <Avatar size="48" />
-          <span>
+        <Link to={`/profile/${author.id}`}>
+          <div className="author">
             {author.name} {author.lastName}
-          </span>
-        </div>
+          </div>
+        </Link>
       </section>
     </div>
   )
@@ -111,5 +110,9 @@ export const ProjectContent = styled(ProjectContentContainer)`
     display: flex;
     align-items: center;
     gap: 12px;
+
+    &:hover {
+      color: #5b45c8;
+    }
   }
 `
