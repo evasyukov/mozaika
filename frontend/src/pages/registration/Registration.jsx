@@ -90,8 +90,6 @@ function RegistrarionContainer({ className }) {
   return (
     <form className={className} onSubmit={handleSubmit(onSubmit)}>
       <div className="form-header">
-        {/* TODO: добавить онклик на кнопку назад */}
-        {step === 2 && <ButtonBack />}
         <H2>Регистрация</H2>
       </div>
 
@@ -102,6 +100,11 @@ function RegistrarionContainer({ className }) {
         </>
       ) : (
         <>
+          <ButtonBack
+            onClick={() => {
+              setStep(1)
+            }}
+          />
           <p className="subtitle">Шаг 2 из 2 — информация о пользователе</p>
           <StepTwo register={register} status={status} formError={formError} />
         </>

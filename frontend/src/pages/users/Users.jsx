@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
 import { H2 } from "../../components"
+import { ErrorPage } from "../error-page/ErrorPage"
 import { usersThunk, deleteUserThunk } from "../../slices/users/usersSlice"
 import { selectUsers, selectAuthUser } from "../../selectors"
 import { ROLES } from "../../constants"
@@ -23,7 +24,7 @@ function UsersContainer({ className }) {
   }
 
   if (roleId !== ROLES.ADMIN) {
-    return <div>Доступ запрещён</div>
+    return <ErrorPage error="Доступ запрещен" />
   }
 
   return (

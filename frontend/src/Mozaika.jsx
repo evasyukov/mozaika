@@ -8,7 +8,8 @@ import {
   Registrarion,
   Profile,
   Project,
-  Users
+  Users,
+  ErrorPage,
 } from "./pages"
 import { useInitAuth } from "./hooks"
 import { selectIsAuthInitialized } from "./selectors"
@@ -41,7 +42,7 @@ export default function Mozaika() {
 
           <Route path="/users" element={<Users />} />
 
-          <Route path="*" element={<div>Ошибка</div>} />
+          <Route path="*" element={<ErrorPage error="Страница не найдена" />} />
         </Routes>
       </AppColumn>
     </>
