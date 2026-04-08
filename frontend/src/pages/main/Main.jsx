@@ -48,7 +48,6 @@ function MainContainer({ className }) {
           value={searchPhrase}
           onChange={onSearch}
         />
-        {/* TODO: добавить фильтрацию */}
       </div>
 
       <div className="project-list">

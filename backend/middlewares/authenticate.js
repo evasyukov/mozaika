@@ -7,6 +7,8 @@ export const authenticate = async (req, res, next) => {
 
     // проверяем токен
     if (!token) {
+      console.log(`токена нет`);
+      
       return res.status(401).json({ error: "Токен отсутствует" })
     }
     const tokenData = verifyToken(token)

@@ -14,12 +14,14 @@ function ProjectContainer({ className }) {
   const params = useParams()
   const dispatch = useDispatch()
 
-  const isCreating = !!useMatch("/project")
-  const isEditing = !!useMatch("/project/:id/edit")
+  const isCreating = !!useMatch({ path: "/project", end: true })
+  const isEditing = !!useMatch({ path: "/project/:id/edit", end: true })
 
   const { data, status, error } = useSelector(selectProjectData)
-  const { roleId, id } = useSelector(selectAuthUser)
 
+  const { roleId, id, isInitialized } = useSelector(selectAuthUser)
+
+  // сброс проекта при создании
   useLayoutEffect(() => {
     if (isCreating) {
       dispatch(resetProjectData())
@@ -32,15 +34,19 @@ function ProjectContainer({ className }) {
     }
   }, [params.id, isCreating, dispatch])
 
-  if (roleId === ROLES.GUEST) {
-    return <Navigate to="/authorization" />
-  }
-
   if (!isCreating && status === "loading") {
     return <div>Загрузка проекта...</div>
   }
 
-  if (!isCreating && !data) return null
+  if (isInitialized && roleId === ROLES.GUEST) {
+    return <Navigate to="/login" />
+  }
+
+  if (!isCreating && status === "succeeded" && !data) {
+    return <div>Проект не найден</div>
+  }
+
+  // if (!data?.project || !data?.author) return <div>Проект не найден</div> TODO: с этим тоже что-то решить
 
   const project = data?.project
   const author = data?.author

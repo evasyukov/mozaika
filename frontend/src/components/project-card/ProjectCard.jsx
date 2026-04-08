@@ -49,8 +49,6 @@ export const ProjectCard = styled(ProjectContainer)`
   flex-direction: column;
   gap: 16px;
 
-  // width: 760px;
-
   background-color: #151821;
   border: 1px solid #1f2330;
   border-radius: 12px;

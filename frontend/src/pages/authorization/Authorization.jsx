@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import styled from "styled-components"
 
 import { H2, Input, AuthFormError, AuthButton } from "../../components"
-import { authorizeUser } from "../../slices/auth/authSlice"
+import { authorizeUser } from "../../slices/auth/authThunk"
 import { selectAuthUser } from "../../selectors"
 import { ROLES } from "../../constants"
 

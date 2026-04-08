@@ -1,24 +1,24 @@
-import { getUserByLogin, addUser } from "../api"
-
 export async function register(data) {
-  const user = await getUserByLogin(data.login)
+  const res = await fetch("/api/register", {
+    method: "POST",
+    credentials: "include", 
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
 
-  if (user) {
+  const result = await res.json()
+
+  if (!res.ok) {
     return {
-      error: "Такой логин уже занят",
+      error: result.error,
       response: null,
     }
   }
 
-  const newUser = await addUser(data)
-
   return {
     error: null,
-    response: {
-      id: newUser.id,
-      login: newUser.login,
-      roleId: newUser.role_id,
-      session: Date.now(),
-    },
+    response: result,
   }
 }

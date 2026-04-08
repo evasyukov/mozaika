@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import styled from "styled-components"
 
 import { H2, AuthFormError, ButtonBack } from "../../components"
-import { registerUser } from "../../slices/auth/authSlice"
+import { registerUser } from "../../slices/auth/authThunk"
 import { selectAuthUser } from "../../selectors"
 import { ROLES } from "../../constants"
 
@@ -76,7 +76,15 @@ function RegistrarionContainer({ className }) {
     }
 
     if (step === 2) {
-      const registerData = { login, password, name, lastName, direction }
+      const registerData = {
+        login,
+        password,
+        profile: {
+          name,
+          last_name: lastName,
+          direction,
+        },
+      }
 
       dispatch(registerUser({ data: registerData }))
     }

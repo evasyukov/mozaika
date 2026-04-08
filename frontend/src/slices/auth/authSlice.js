@@ -1,26 +1,7 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import { authorize, register } from "../../bff/operations"
+import { createSlice } from "@reduxjs/toolkit"
 import { ROLES } from "../../constants"
-import { handlePending, handleRejected } from "../handlers"
-import { handleAuthSuccess } from "../handlers" 
-
-export const authorizeUser = createAsyncThunk(
-  "auth/authorizeUser",
-  async ({ login, password }, { rejectWithValue }) => {
-    const { error, response } = await authorize(login, password)
-    if (error) return rejectWithValue(error)
-    return response
-  },
-)
-
-export const registerUser = createAsyncThunk(
-  "auth/registerUser",
-  async ({ data }, { rejectWithValue }) => {
-    const { error, response } = await register(data)
-    if (error) return rejectWithValue(error)
-    return response
-  },
-)
+import { handlePending, handleRejected, handleAuthSuccess } from "../handlers"
+import { authorizeUser, registerUser, logoutUser, fetchMe } from "./authThunk"
 
 const initialState = {
   id: null,
@@ -36,9 +17,13 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logout() {
-      sessionStorage.removeItem("userData")
-      return { ...initialState, isInitialized: true }
+    logoutLocal(state) {
+      state.id = null
+      state.login = null
+      state.roleId = ROLES.GUEST
+      state.status = "idle"
+      state.error = null
+      state.isInitialized = true
     },
     setUserFromStorage(state, action) {
       return {
@@ -64,9 +49,34 @@ const authSlice = createSlice({
       .addCase(registerUser.pending, handlePending)
       .addCase(registerUser.fulfilled, handleAuthSuccess)
       .addCase(registerUser.rejected, handleRejected)
+
+      // выход
+      .addCase(logoutUser.pending, (state) => {
+        state.status = "loading"
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.id = null
+        state.login = null
+        state.roleId = ROLES.GUEST
+        state.status = "idle"
+        state.error = null
+        state.isInitialized = true
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.status = "idle"
+        state.error = action.payload
+      })
+
+      // проверка токена
+      .addCase(fetchMe.pending, handlePending)
+      .addCase(fetchMe.fulfilled, handleAuthSuccess)
+      .addCase(fetchMe.rejected, (state) => {
+        state.status = "idle"
+        state.isInitialized = true
+      })
   },
 })
 
-export const { logout, setUserFromStorage, setAuthInitialized } =
+export const { logoutLocal, setUserFromStorage, setAuthInitialized } =
   authSlice.actions
 export default authSlice.reducer

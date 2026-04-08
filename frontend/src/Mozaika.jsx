@@ -20,8 +20,9 @@ export default function Mozaika() {
   const isInitialized = useSelector(selectIsAuthInitialized)
 
   if (!isInitialized) {
-    return null
+    return <div> Loading... </div>
   }
+
   return (
     <>
       <Header />
@@ -29,7 +30,7 @@ export default function Mozaika() {
       <AppColumn>
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/authorization" element={<Authorization />} />
+          <Route path="/login" element={<Authorization />} />
           <Route path="/register" element={<Registrarion />} />
 
           <Route path="/profile" element={<Profile />} />

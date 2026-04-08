@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
@@ -16,7 +16,6 @@ import {
 } from "../../../../components"
 import { FormSection, ContactsBlock } from "./components"
 import { updateProfileThunk } from "../../../../slices/profile/profileThunk"
-import { selectAuthUser } from "../../../../selectors"
 
 const editingSchema = yup.object().shape({
   name: yup
@@ -52,8 +51,6 @@ function ProfileEditContainer({ className, profileInfo }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const auth = useSelector(selectAuthUser)
-
   const [skillsState, setSkillsState] = useState([])
   const [newSkill, setNewSkill] = useState("")
 
@@ -86,19 +83,10 @@ function ProfileEditContainer({ className, profileInfo }) {
       contacts: contactsState,
     }
 
-    dispatch(
-      updateProfileThunk({
-        id: auth.id,
-        formData: profileData,
-      }),
-    )
+    dispatch(updateProfileThunk(profileData))
       .unwrap()
-      .then(() => {
-        navigate(-1)
-      })
-      .catch((err) => {
-        console.error("Ошибка обновления профиля:", err)
-      })
+      .then(() => navigate(-1))
+      .catch((err) => console.error(err))
   }
 
   const errorMessage = Object.values(errors)[0]?.message

@@ -4,8 +4,7 @@ import { mapProject } from "../helpers/mapProject.js"
 // get all
 export const getProjects = async (req, res) => {
   try {
-    const projects = await Project.find()
-
+    const projects = await Project.find().populate("userId")
     res.json(projects.map(mapProject))
   } catch (error) {
     res.status(500).json({ error: "Ошибка получения проектов" })
@@ -15,7 +14,7 @@ export const getProjects = async (req, res) => {
 // get id
 export const getProjectById = async (req, res) => {
   try {
-    const project = await Project.findById(req.params.id)
+    const project = await Project.findById(req.params.id).populate("userId")
 
     if (!project) {
       return res.status(404).json({ error: "Проект не найден" })
@@ -30,12 +29,14 @@ export const getProjectById = async (req, res) => {
 // post
 export const createProject = async (req, res) => {
   try {
-    const { name, title, description, skills, userId } = req.body
+    const { name, title, description, skills } = req.body
+
+    const userId = req.user._id
 
     if (!name || !title || !description) {
-      return res
-        .status(400)
-        .json({ error: "Не все обязательные поля заполнены" })
+      return res.status(400).json({
+        error: "Не все обязательные поля заполнены",
+      })
     }
 
     const project = await Project.create({
@@ -57,9 +58,11 @@ export const updateProject = async (req, res) => {
   try {
     const updates = req.body
 
-    const project = await Project.findByIdAndUpdate(req.params.id, updates, {
-      new: true,
-    })
+    const project = await Project.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user._id },
+      updates,
+      { new: true },
+    )
 
     if (!project) {
       return res.status(404).json({ error: "Проект не найден" })
@@ -74,11 +77,18 @@ export const updateProject = async (req, res) => {
 // delete
 export const deleteProject = async (req, res) => {
   try {
-    const project = await Project.findByIdAndDelete(req.params.id)
+    const project = await Project.findById(req.params.id)
 
     if (!project) {
       return res.status(404).json({ error: "Проект не найден" })
     }
+
+    // проверка владельца TODO: надо ли?
+    if (project.userId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ error: "Нет прав на удаление" })
+    }
+
+    await project.deleteOne()
 
     res.json({ success: true })
   } catch (error) {

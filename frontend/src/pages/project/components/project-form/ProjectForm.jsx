@@ -1,5 +1,5 @@
 import { useState, useLayoutEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
 import { useForm } from "react-hook-form"
@@ -9,8 +9,10 @@ import styled from "styled-components"
 
 import { H2, Input, ButtonPrimary, AuthFormError } from "../../../../components"
 import { AddSkills } from "./components/AddSkills"
-import { saveProjectThunk } from "../../../../slices/project/projectThunk"
-import { selectAuthUser } from "../../../../selectors"
+import {
+  saveProjectThunk,
+  projectThunk,
+} from "../../../../slices/project/projectThunk"
 
 const projectFormSchema = yup.object().shape({
   name: yup
@@ -46,11 +48,10 @@ function ProjectFormContainer({ className, project, status }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const auth = useSelector(selectAuthUser)
-
   const [description, setDescription] = useState("")
   const [skills, setSkills] = useState([])
   const [errorSkill, setErrorSkill] = useState("")
+  const [serverError, setServerError] = useState("")
 
   useLayoutEffect(() => {
     if (project) {
@@ -79,7 +80,7 @@ function ProjectFormContainer({ className, project, status }) {
     setDescription(target.value)
   }
 
-  const onSubmit = ({ name, title }) => {
+  const onSubmit = async ({ name, title }) => {
     if (skills.length < 1) {
       setErrorSkill("Добавьте хотя бы один навык")
       return
@@ -90,16 +91,23 @@ function ProjectFormContainer({ className, project, status }) {
       title,
       description,
       skills,
-      authUserId: auth.id,
       projectId: project?.id,
     }
 
-    dispatch(saveProjectThunk({ data: projectData }))
+    const result = await dispatch(saveProjectThunk({ data: projectData }))
 
-    navigate("/profile")
+    const idNewProject = result.payload.id
+
+    if (saveProjectThunk.fulfilled.match(result)) {
+      dispatch(projectThunk(idNewProject))
+      navigate(`/project/${idNewProject}`)
+    } else if (saveProjectThunk.rejected.match(result)) {
+      setServerError(result.payload)
+    }
   }
 
-  const formError = errors.name?.message || errors.title?.message || errorSkill
+  const formError =
+    errors.name?.message || errors.title?.message || errorSkill || serverError
 
   return (
     <div className={className}>

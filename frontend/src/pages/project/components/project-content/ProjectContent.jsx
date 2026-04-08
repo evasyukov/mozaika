@@ -15,14 +15,13 @@ function ProjectContentContainer({ className, project, author, isAuthor }) {
   const navigate = useNavigate()
 
   function onProjectRemove() {
-    dispatch(
-      deleteProjectThunk({
-        projectId: project.id,
-        authorId: author.id,
-      }),
-    )
+    dispatch(deleteProjectThunk(project.id))
 
     navigate("/profile")
+  }
+
+  if (!project || !author) {
+    return null
   }
 
   return (
@@ -104,15 +103,21 @@ export const ProjectContent = styled(ProjectContentContainer)`
     ul {
       padding-left: 20px;
     }
+
+    a {
+      display: block;
+      width: fit-content;
+      padding: 5px;
+
+      &:hover {
+        color: #5b45c8;
+      }
+    }
   }
 
   .author {
     display: flex;
     align-items: center;
     gap: 12px;
-
-    &:hover {
-      color: #5b45c8;
-    }
   }
 `

@@ -1,19 +1,37 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 
-import { selectAuthUser } from "../../selectors"
-import { fetchProject, removeProject, saveProject } from "../../bff/operations"
-
 // получение проекта
 export const projectThunk = createAsyncThunk(
   "project/fetchById",
   async (id, { rejectWithValue }) => {
-    const { error, response } = await fetchProject(id)
+    try {
+      const res = await fetch(`/api/projects/${id}`, {
+        credentials: "include",
+      })
 
-    if (error) {
-      return rejectWithValue(error)
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        return rejectWithValue(data.error || "Проект не найден")
+      }
+
+      const project = await res.json()
+
+      // преобразуем структуру
+      const projectData = {
+        project: {
+          id: project.id,
+          name: project.name,
+          title: project.title,
+          description: project.description,
+          skills: project.skills,
+        },
+        author: project.author,
+      }
+
+      return projectData
+    } catch {
+      return rejectWithValue("Ошибка соединения с сервером")
     }
-
-    return response
   },
 )
 
@@ -21,30 +39,60 @@ export const projectThunk = createAsyncThunk(
 export const saveProjectThunk = createAsyncThunk(
   "project/save",
   async ({ data }, { rejectWithValue }) => {
-    const { error, response } = await saveProject({ data })
+    try {
+      // определяем метод, редактируем проект или создаем новый
+      const url = data.projectId
+        ? `/api/projects/${data.projectId}`
+        : "/api/projects"
 
-    if (error) return rejectWithValue(error)
+      const method = data.projectId ? "PATCH" : "POST"
 
-    return response
+      const res = await fetch(url, {
+        method,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: data.name,
+          title: data.title,
+          description: data.description,
+          skills: data.skills,
+        }),
+      })
+
+      const result = await res.json()
+
+      if (!res.ok) {
+        return rejectWithValue(result.error || "Ошибка сохранения проекта")
+      }
+
+      return result
+    } catch {
+      return rejectWithValue("Ошибка соединения с сервером")
+    }
   },
 )
 
 // удаление проекта
 export const deleteProjectThunk = createAsyncThunk(
   "project/delete",
-  async ({ projectId, authorId }, { getState, rejectWithValue }) => {
-    const authUserId = selectAuthUser(getState())?.id
+  async (projectId, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`/api/projects/${projectId}`, {
+        method: "DELETE",
+        credentials: "include",
+      })
 
-    const { error, response } = await removeProject(
-      projectId,
-      authUserId,
-      authorId,
-    )
+      const data = await res.json().catch(() => ({}))
 
-    if (error) {
-      return rejectWithValue(error)
+      if (!res.ok) {
+        return rejectWithValue(data.error || "Ошибка удаления проекта")
+      }
+
+      return projectId
+    } catch {
+      return rejectWithValue("Ошибка соединения с сервером")
     }
-
-    return response
   },
 )

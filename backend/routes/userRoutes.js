@@ -17,7 +17,7 @@ router.get("/:id", authenticate, getUser)
 router.patch("/:id", authenticate, updateUser)
 
 // admin
-router.get("/", hasRole([ROLES.ADMIN]), getUsers)
-router.delete("/:id", hasRole([ROLES.ADMIN]), deleteUser)
+router.get("/", authenticate, hasRole([ROLES.ADMIN]), getUsers)
+router.delete("/:id", authenticate, hasRole([ROLES.ADMIN]), deleteUser)
 
 export default router

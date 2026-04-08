@@ -1,4 +1,5 @@
 import User from "../models/User.js"
+import Project from "../models/Project.js"
 import { mapUser } from "../helpers/mapUser.js"
 
 // get user by id
@@ -14,7 +15,21 @@ export const getUser = async (req, res) => {
       })
     }
 
-    res.status(200).json(mapUser(user))
+    const projects = await Project.find({ userId: id }).select(
+      "name title skills",
+    )
+
+    const response = {
+      ...mapUser(user),
+      projects: projects.map((project) => ({
+        id: project._id.toString(),
+        name: project.name,
+        title: project.title,
+        skills: project.skills,
+      })),
+    }
+
+    res.status(200).json(response)
   } catch (error) {
     console.error("Ошибка при получении пользователя:", error)
     res.status(500).json({
@@ -26,9 +41,37 @@ export const getUser = async (req, res) => {
 // get all users
 export const getUsers = async (req, res) => {
   try {
-    const users = await User.find().lean()
+    const users = await User.aggregate([
+      {
+        $match: {
+          _id: { $ne: req.user._id }, // исключаем админа
+        },
+      },
+      {
+        $lookup: {
+          from: "projects",
+          localField: "_id",
+          foreignField: "userId",
+          as: "projects",
+        },
+      },
+      {
+        $addFields: {
+          projectsCount: { $size: "$projects" },
+        },
+      },
+    ])
 
-    res.status(200).json(users.map(mapUser))
+    const response = users.map((user) => ({
+      id: user._id.toString(),
+      login: user.login,
+      registeredAt: user.registered_at
+        ? new Date(user.registered_at).toISOString().split("T")[0]
+        : null,
+      projectsCount: user.projectsCount || 0,
+    }))
+
+    res.status(200).json(response)
   } catch (error) {
     console.error("Ошибка при получении пользователей:", error)
     res.status(500).json({
@@ -43,27 +86,27 @@ export const updateUser = async (req, res) => {
     const userId = req.user._id
     const updates = req.body
 
-    const user = await User.findById(userId)   
+    const user = await User.findById(userId)
 
     if (!user) {
       return res.status(404).json({ error: "Пользователь не найден" })
     }
 
     if (updates.profile && typeof updates.profile === "object") {
-      Object.keys(updates.profile).forEach((key) => {
-        if (
-          [
-            "name",
-            "last_name",
-            "direction",
-            "description",
-            "skills",
-            "contacts",
-          ].includes(key)
-        ) {
+      const allowedFields = [
+        "name",
+        "last_name",
+        "direction",
+        "description",
+        "skills",
+        "contacts",
+      ]
+
+      for (const key of allowedFields) {
+        if (key in updates.profile) {
           user.profile[key] = updates.profile[key]
         }
-      })
+      }
     }
 
     await user.save()
@@ -79,7 +122,6 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     const { id } = req.params
-
     const user = await User.findById(id)
 
     if (!user) {
@@ -88,10 +130,13 @@ export const deleteUser = async (req, res) => {
       })
     }
 
+    // удаляем все проекты пользователя
+    await Project.deleteMany({ userId: id })
     await User.findByIdAndDelete(id)
 
     res.status(200).json({
-      message: "Пользователь удалён",
+      message: "Пользователь и его проекты удалены",
+      id,
     })
   } catch (error) {
     console.error("Ошибка при удалении пользователя:", error)

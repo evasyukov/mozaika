@@ -6,7 +6,7 @@ export function mapUser(user) {
     registedAt: user.registered_at.toISOString().split("T")[0],
     profile: {
       name: user.profile?.name || "",
-      last_name: user.profile?.last_name || "",
+      lastName: user.profile?.last_name || "",
       direction: user.profile?.direction || "",
       description: user.profile?.description || "",
       skills: user.profile?.skills || [],

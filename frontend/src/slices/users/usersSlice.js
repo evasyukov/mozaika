@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import { fetchUsers, removeUserWithProjects } from "../../bff/operations"
 import {
   handlePending,
   handleRejected,
@@ -10,9 +9,24 @@ import {
 export const usersThunk = createAsyncThunk(
   "users/fetchAll",
   async (_, { rejectWithValue }) => {
-    const { error, response } = await fetchUsers()
-    if (error) return rejectWithValue(error)
-    return response
+    try {
+      const res = await fetch("/api/profile", {
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+      })
+
+      if (!res.ok) {
+        const errorData = await res.json()
+        return rejectWithValue(
+          errorData.error || "Ошибка загрузки пользователей",
+        )
+      }
+
+      return await res.json()
+    } catch {
+      return rejectWithValue("Сервер недоступен")
+    }
   },
 )
 
@@ -20,11 +34,23 @@ export const usersThunk = createAsyncThunk(
 export const deleteUserThunk = createAsyncThunk(
   "users/delete",
   async (userId, { rejectWithValue }) => {
-    const { error, response } = await removeUserWithProjects(userId)
+    try {
+      const res = await fetch(`/api/profile/${userId}`, {
+        method: "DELETE",
+      })
 
-    if (error) return rejectWithValue(error)
+      if (!res.ok) {
+        const errorData = await res.json()
+        return rejectWithValue(
+          errorData.error || "Ошибка удаления пользователя",
+        )
+      }
 
-    return response
+      const data = await res.json()
+      return data.id
+    } catch {
+      return rejectWithValue("Сервер недоступен")
+    }
   },
 )
 

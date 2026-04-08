@@ -1,8 +1,8 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 
-import { H2 } from "../../components"
+import { H2, AuthFormError } from "../../components"
 import { ErrorPage } from "../error-page/ErrorPage"
 import { usersThunk, deleteUserThunk } from "../../slices/users/usersSlice"
 import { selectUsers, selectAuthUser } from "../../selectors"
@@ -13,6 +13,8 @@ function UsersContainer({ className }) {
   const users = useSelector(selectUsers)
   const { roleId } = useSelector(selectAuthUser)
 
+  const [successMessage, setSuccessMessage] = useState("")
+
   useEffect(() => {
     dispatch(usersThunk())
   }, [dispatch])
@@ -20,6 +22,13 @@ function UsersContainer({ className }) {
   const handleDeleteUser = (userId, userLogin) => {
     if (window.confirm(`Удалить пользователя ${userLogin}?`)) {
       dispatch(deleteUserThunk(userId))
+        .unwrap()
+        .then(() => {
+          setSuccessMessage(`Пользователь ${userLogin} удалён`)
+        })
+        .catch((err) => {
+          console.error(err)
+        })
     }
   }
 
@@ -33,6 +42,8 @@ function UsersContainer({ className }) {
         <div className="admin-header">
           <H2>Пользователи</H2>
         </div>
+
+        {/* <AuthFormError>{successMessage}</AuthFormError> */}
 
         <table className="users-table">
           <thead>

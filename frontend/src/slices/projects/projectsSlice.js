@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import { fetchProjects } from "../../bff/operations"
 import {
   handlePending,
   handleRejected,
@@ -8,10 +7,35 @@ import {
 
 export const projectsThunk = createAsyncThunk(
   "projects/fetchAll",
-  async (search, { rejectWithValue }) => {
-    const { error, response } = await fetchProjects(search)
-    if (error) return rejectWithValue(error)
-    return response
+  async (search = "", { rejectWithValue }) => {
+    try {
+      const query = search ? `?search=${encodeURIComponent(search)}` : ""
+      const res = await fetch(`/api/projects${query}`, {
+        credentials: "include",
+      })
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        return rejectWithValue(data.error || "Ошибка получения проектов")
+      }
+
+      const projects = await res.json()
+
+      // трансформируем данные для фронтенда
+      const projectsData = projects.map((project) => ({
+        id: project.id,
+        name: project.name,
+        title: project.title,
+        skills: project.skills,
+        authorName:
+          (project.author?.name || "") + " " + (project.author?.lastName || ""),
+        createdAt: project.createdAt,
+      }))
+
+      return projectsData
+    } catch {
+      return rejectWithValue("Ошибка соединения с сервером")
+    }
   },
 )
 

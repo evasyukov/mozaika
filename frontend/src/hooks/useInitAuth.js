@@ -1,7 +1,8 @@
 import { useDispatch } from "react-redux"
 import { useEffect } from "react"
 
-import { setUserFromStorage, setAuthInitialized } from "../slices/auth/authSlice"
+import { setUserFromStorage } from "../slices/auth/authSlice"
+import { fetchMe } from "../slices/auth/authThunk"
 
 export function useInitAuth() {
   const dispatch = useDispatch()
@@ -18,6 +19,6 @@ export function useInitAuth() {
       }
     }
 
-    dispatch(setAuthInitialized())
+    dispatch(fetchMe())
   }, [dispatch])
 }

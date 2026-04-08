@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 
-import { logout } from "../../../../slices/auth/authSlice"
+import { logoutUser } from "../../../../slices/auth/authThunk"
 import { selectAuthUser } from "../../../../selectors/selectAuthorize"
+import { ROLES } from "../../../../constants"
 
 function ControlPanelContainer({ className }) {
-  const { id, login } = useSelector(selectAuthUser)
+  const { id, login, roleId } = useSelector(selectAuthUser) 
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -24,17 +25,21 @@ function ControlPanelContainer({ className }) {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
-  const handleLogout = () => {
-    dispatch(logout())
-    navigate("/")
-    setIsOpen(false)
+  const handleLogout = async () => {
+    try {
+      await dispatch(logoutUser()).unwrap()
+      navigate("/")
+      setIsOpen(false)
+    } catch (error) {
+      console.error("Ошибка при выходе:", error)
+    }
   }
 
   if (!id) {
     return (
       <div className={className}>
         <div className="auth-button">
-          <Link to="/authorization">Авторизация</Link>
+          <Link to="/login">Авторизация</Link>
         </div>
       </div>
     )
@@ -60,13 +65,25 @@ function ControlPanelContainer({ className }) {
             >
               Профиль
             </Link>
-            <Link
-              to="/project"
-              className="dropdown-item"
-              onClick={() => setIsOpen(false)}
-            >
-              Создать проект
-            </Link>
+
+            {roleId === ROLES.ADMIN ? (
+              <Link
+                to="/users"
+                className="dropdown-item"
+                onClick={() => setIsOpen(false)}
+              >
+                Админка
+              </Link>
+            ) : (
+              <Link
+                to="/project"
+                className="dropdown-item"
+                onClick={() => setIsOpen(false)}
+              >
+                Создать проект
+              </Link>
+            )}
+
             <button
               className="dropdown-item logout-item"
               onClick={handleLogout}
