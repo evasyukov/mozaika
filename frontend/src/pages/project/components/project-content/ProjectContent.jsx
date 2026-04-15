@@ -52,7 +52,7 @@ function ProjectContentContainer({ className, project, author, isAuthor }) {
         <H2 textAling="left" margin="0 0 12px 0">
           Описание проекта
         </H2>
-        <p>{project.description}</p>
+        <p>{project.description || 'Описание отсутствует'}</p>
       </section>
 
       <section>

@@ -46,7 +46,9 @@ function ProjectContainer({ className }) {
     return <div>Проект не найден</div>
   }
 
-  // if (!data?.project || !data?.author) return <div>Проект не найден</div> TODO: с этим тоже что-то решить
+  if (!isCreating && (!data?.project || !data?.author)) {
+    return <div>Проект не найден</div>
+  }
 
   const project = data?.project
   const author = data?.author

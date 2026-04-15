@@ -14,7 +14,7 @@ const projectSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      required: true,
+      default: "",
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,

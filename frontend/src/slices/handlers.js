@@ -18,8 +18,9 @@ export const handleFulfilledObject = (state, action) => {
 
 // fulfilled для массивов
 export const handleFulfilledArray = (state, action) => {
+  state.data = action.payload.projects || action.payload
+  state.lastPage = action.payload.lastPage || 1
   state.status = "succeeded"
-  state.data = action.payload
 }
 
 // обработка авторизации

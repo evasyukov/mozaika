@@ -7,10 +7,15 @@ import {
 
 export const projectsThunk = createAsyncThunk(
   "projects/fetchAll",
-  async (search = "", { rejectWithValue }) => {
+  async ({ search = "", page = 1 }, { rejectWithValue }) => {
     try {
-      const query = search ? `?search=${encodeURIComponent(search)}` : ""
-      const res = await fetch(`/api/projects${query}`, {
+      const query = new URLSearchParams({
+        search,
+        page,
+        limit: 4,
+      }).toString()
+
+      const res = await fetch(`/api/projects?${query}`, {
         credentials: "include",
       })
 
@@ -19,20 +24,22 @@ export const projectsThunk = createAsyncThunk(
         return rejectWithValue(data.error || "Ошибка получения проектов")
       }
 
-      const projects = await res.json()
+      const data = await res.json()
 
-      // трансформируем данные для фронтенда
-      const projectsData = projects.map((project) => ({
-        id: project.id,
-        name: project.name,
-        title: project.title,
-        skills: project.skills,
-        authorName:
-          (project.author?.name || "") + " " + (project.author?.lastName || ""),
-        createdAt: project.createdAt,
-      }))
-
-      return projectsData
+      return {
+        projects: data.projects.map((project) => ({
+          id: project.id,
+          name: project.name,
+          title: project.title,
+          skills: project.skills,
+          authorName:
+            (project.author?.name || "") +
+            " " +
+            (project.author?.lastName || ""),
+          createdAt: project.createdAt,
+        })),
+        lastPage: data.lastPage,
+      }
     } catch {
       return rejectWithValue("Ошибка соединения с сервером")
     }
@@ -41,6 +48,7 @@ export const projectsThunk = createAsyncThunk(
 
 const initialState = {
   data: [],
+  lastPage: 1,
   status: "idle",
   error: null,
 }

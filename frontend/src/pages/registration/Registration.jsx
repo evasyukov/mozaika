@@ -86,7 +86,7 @@ function RegistrarionContainer({ className }) {
         },
       }
 
-      dispatch(registerUser({ data: registerData }))
+      dispatch(registerUser(registerData))
     }
   }
 

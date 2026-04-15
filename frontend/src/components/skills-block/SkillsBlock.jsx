@@ -1,8 +1,6 @@
 import styled from "styled-components"
 
 function SkillsBlockContainer({ className, skills = [], onRemove }) {
-  /* TODO: доделать функционал по подсветке определенного навыка */
-
   return (
     <div className={className}>
       {skills.map((skill) => (

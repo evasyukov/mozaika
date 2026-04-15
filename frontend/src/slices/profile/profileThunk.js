@@ -47,8 +47,6 @@ export const updateProfileThunk = createAsyncThunk(
         }),
       })
 
-      console.log(res.ok)
-
       if (!res.ok) {
         const errorData = await res.json()
         return rejectWithValue(errorData.error || "Ошибка обновления профиля")

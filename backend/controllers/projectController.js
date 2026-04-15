@@ -4,8 +4,26 @@ import { mapProject } from "../helpers/mapProject.js"
 // get all
 export const getProjects = async (req, res) => {
   try {
-    const projects = await Project.find().populate("userId")
-    res.json(projects.map(mapProject))
+    const { search = "", page = 1, limit = 5 } = req.query
+
+    const searchQuery = {
+      title: { $regex: search, $options: "i" },
+    }
+
+    const [projects, count] = await Promise.all([
+      Project.find(searchQuery)
+        .populate("userId")
+        .limit(Number(limit))
+        .skip((Number(page) - 1) * Number(limit))
+        .sort({ created_at: 1 }),
+
+      Project.countDocuments(searchQuery),
+    ])
+
+    res.json({
+      projects: projects.map(mapProject),
+      lastPage: Math.ceil(count / limit),
+    })
   } catch (error) {
     res.status(500).json({ error: "Ошибка получения проектов" })
   }
@@ -33,7 +51,7 @@ export const createProject = async (req, res) => {
 
     const userId = req.user._id
 
-    if (!name || !title || !description) {
+    if (!name || !title) {
       return res.status(400).json({
         error: "Не все обязательные поля заполнены",
       })
@@ -83,7 +101,6 @@ export const deleteProject = async (req, res) => {
       return res.status(404).json({ error: "Проект не найден" })
     }
 
-    // проверка владельца TODO: надо ли?
     if (project.userId.toString() !== req.user._id.toString()) {
       return res.status(403).json({ error: "Нет прав на удаление" })
     }
