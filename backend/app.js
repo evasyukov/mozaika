@@ -13,6 +13,9 @@ import userRoutes from "./routes/userRoutes.js"
 const app = express()
 const port = process.env.PORT || 5007
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
 app.use(express.json())
 app.use(cookieParser())
 
@@ -23,11 +26,18 @@ app.use(
   }),
 )
 
-app.use("/", authRoutes)
+app.use("/api", authRoutes)
+app.use("/api/projects", projectRoutes)
+app.use("/api/profile", userRoutes)
 
-app.use("/projects", projectRoutes)
+import path from "path"
+import { fileURLToPath } from "url"
 
-app.use("/profile", userRoutes)
+app.use(express.static(path.join(__dirname, "../frontend/dist")))
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"))
+})
 
 // запуск сервера и подключение к бд
 const server = async () => {
