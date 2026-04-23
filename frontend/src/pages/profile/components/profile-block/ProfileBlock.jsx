@@ -22,15 +22,15 @@ function ProfileBlockContainer({ className, profile, isUserProfile, id }) {
             })}
           </div>
 
-          <SkillsBlock skills={profile.skills} />
-        </div>
-        {isUserProfile && (
           <div className="profile-settings">
-            <Link to={`/profile/${id}/edit`}>
-              <ButtonSecondary>Редактировать профиль</ButtonSecondary>
-            </Link>
+            <SkillsBlock skills={profile.skills} />
+            {isUserProfile && (
+              <Link to={`/profile/${id}/edit`}>
+                <ButtonSecondary>Редактировать профиль</ButtonSecondary>
+              </Link>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   )
@@ -49,10 +49,7 @@ export const ProfileBlock = styled(ProfileBlockContainer)`
   border: 1px solid #1f2330;
   border-radius: 12px;
 
-  .profile-main {
-    display: flex;
-    justify-content: space-between;
-
+  .profile-info {
     width: 100%;
   }
 
@@ -78,6 +75,7 @@ export const ProfileBlock = styled(ProfileBlockContainer)`
 
   .profile-settings {
     display: flex;
-    align-items: flex-end;
+    /* align-items: flex-end; */
+    justify-content: space-between;
   }
 `

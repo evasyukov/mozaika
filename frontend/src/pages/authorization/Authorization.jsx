@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { Link, Navigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { useSelector, useDispatch } from "react-redux"
-import { Navigate } from "react-router-dom"
 
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -9,6 +9,7 @@ import styled from "styled-components"
 
 import { H2, Input, AuthFormError, AuthButton } from "../../components"
 import { authorizeUser } from "../../slices/auth/authThunk"
+import { clearAuthError } from "../../slices/auth/authSlice"
 import { selectAuthUser } from "../../selectors"
 import { ROLES } from "../../constants"
 
@@ -17,8 +18,11 @@ const authFormSchema = yup.object().shape({
     .string()
     .required("Заполните логин")
     .min(4, "Неверно заполнен логин. Минимум 4 символа")
-    .max(15, "Неверный заполнен логин. Максимум 15 символов")
-    .matches(/^[a-zA-Z0-9]+$/, "Логин может содержать только буквы и цифры"),
+    .max(15, "Неверно заполнен логин. Максимум 15 символов")
+    .matches(
+      /^[a-zA-Z0-9]+$/,
+      "Логин может содержать только буквы латинского алфавита и цифры",
+    ),
   password: yup
     .string()
     .required("Заполните пароль")
@@ -43,16 +47,32 @@ function AuthorizationContainer({ className }) {
     resolver: yupResolver(authFormSchema),
   })
 
+  const [showServerError, setShowServerError] = useState(false)
+
   const dispatch = useDispatch()
   const { error, roleId, status } = useSelector(selectAuthUser)
 
   function onSubmit({ login, password }) {
+    setShowServerError(true)
     dispatch(authorizeUser({ login, password }))
   }
 
+  const handleChange = () => {
+    if (showServerError) {
+      setShowServerError(false)
+      dispatch(clearAuthError())
+    }
+  }
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearAuthError())
+    }
+  }, [dispatch])
+
   const formError = errors?.login?.message || errors?.password?.message
 
-  const errorMessage = formError || error
+  const errorMessage = formError || (showServerError ? error : null)
 
   if (roleId !== ROLES.GUEST) return <Navigate to="/" />
 
@@ -65,20 +85,29 @@ function AuthorizationContainer({ className }) {
           type="text"
           placeholder="username"
           title="Логин"
-          {...register("login")}
+          {...register("login", {
+            onChange: handleChange,
+          })}
         />
+
         <Input
           type="password"
           placeholder="password"
           title="Пароль"
-          {...register("password")}
+          {...register("password", {
+            onChange: handleChange,
+          })}
         />
 
         <AuthButton formError={formError} status={status}>
           {status === "loading" ? "Загрузка..." : "Авторизоваться"}
         </AuthButton>
 
-        <Link to="/register" className="link">
+        <Link
+          to="/register"
+          className="link"
+          onClick={() => dispatch(clearAuthError())}
+        >
           Зарегистрироваться
         </Link>
         {errorMessage && <AuthFormError>{errorMessage}</AuthFormError>}

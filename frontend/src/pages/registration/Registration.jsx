@@ -14,46 +14,64 @@ import { ROLES } from "../../constants"
 
 import { StepOne, StepTwo } from "./components"
 
-const authFormSchema = (step) => {
-  if (step === 1) {
-    return yup.object().shape({
-      login: yup
-        .string()
-        .required("Заполните логин")
-        .min(4, "Минимум 4 символа")
-        .max(15, "Максимум 15 символов")
-        .matches(/^[a-zA-Z0-9]+$/, "Только латиница и цифры"),
+const schemaStep1 = yup.object().shape({
+  login: yup
+    .string()
+    .required("Заполните логин")
+    .min(4, "Логин должен содержать минимум 4 символа")
+    .max(15, "Логин должен содержать максимум 15 символов")
+    .matches(/^[a-zA-Z0-9]+$/, "Только буквы и цифры"),
 
-      password: yup
-        .string()
-        .required("Заполните пароль")
-        .min(5, "Минимум 5 символов")
-        .max(30, "Максимум 30 символов"),
+  password: yup
+    .string()
+    .required("Заполните пароль")
+    .min(5, "Пароль должен быть не менее 5 символа"),
 
-      passcheck: yup
-        .string()
-        .required("Введите пароль повторно")
-        .oneOf([yup.ref("password")], "Пароли не совпадают"),
-    })
-  }
+  passcheck: yup
+    .string()
+    .required("Введите пароль повторно")
+    .oneOf([yup.ref("password")], "Пароли не совпадают"),
+})
 
-  if (step === 2) {
-    return yup.object().shape({
-      name: yup.string().required("Введите имя"),
-      lastName: yup.string().required("Введите фамилию"),
-      direction: yup.string().required("Выберите направление"),
-    })
-  }
+const schemaStep2 = yup.object().shape({
+  name: yup
+    .string()
+    .required("Введите имя")
+    .min(2, "Имя должно содержать минимум 2 символа")
+    .max(15, "Имя должно содержать максимум 15 символов")
+    .matches(
+      /^[a-zA-Zа-яА-ЯёЁ]+(?:[ -][a-zA-Zа-яА-ЯёЁ]+)*$/,
+      "Имя может содержать только буквы, пробелы и дефис",
+    ),
 
-  return yup.object()
-}
+  lastName: yup
+    .string()
+    .required("Введите фамилию")
+    .min(2, "Фамилия должна содержать минимум 2 символа")
+    .max(15, "Фамилия должна содержать максимум 15 символов")
+    .matches(
+      /^[a-zA-Zа-яА-ЯёЁ]+(?:[ -][a-zA-Zа-яА-ЯёЁ]+)*$/,
+      "Фамилия может содержать только буквы, пробелы и дефис",
+    ),
 
-function RegistrarionContainer({ className }) {
+  direction: yup.string().required("Выберите направление"),
+})
+
+function RegistrationContainer({ className }) {
+  const [step, setStep] = useState(1)
+  const [showServerError, setShowServerError] = useState(false)
+
+  const dispatch = useDispatch()
+  const { error, roleId } = useSelector(selectAuthUser)
+
   const {
     register,
     handleSubmit,
+    trigger,
+    getValues,
     formState: { errors },
   } = useForm({
+    mode: "onSubmit",
     defaultValues: {
       login: "",
       password: "",
@@ -62,31 +80,38 @@ function RegistrarionContainer({ className }) {
       lastName: "",
       direction: "",
     },
-    resolver: yupResolver(yup.lazy(() => authFormSchema(step))),
+    resolver: yupResolver(step === 1 ? schemaStep1 : schemaStep2),
   })
 
-  const [step, setStep] = useState(1)
+  const handleChange = () => {
+    if (showServerError) {
+      setShowServerError(false)
+    }
+  }
 
-  const dispatch = useDispatch()
-  const { error, roleId } = useSelector(selectAuthUser)
-
-  function onSubmit({ login, password, name, lastName, direction }) {
+  const onSubmit = async () => {
     if (step === 1) {
+      const isValid = await trigger(["login", "password", "passcheck"])
+      if (!isValid) return
+
       setStep(2)
+      return
     }
 
     if (step === 2) {
-      const registerData = {
-        login,
-        password,
-        profile: {
-          name,
-          last_name: lastName,
-          direction,
-        },
-      }
+      const data = getValues()
 
-      dispatch(registerUser(registerData))
+      dispatch(
+        registerUser({
+          login: data.login,
+          password: data.password,
+          profile: {
+            name: data.name,
+            last_name: data.lastName,
+            direction: data.direction,
+          },
+        }),
+      )
     }
   }
 
@@ -103,18 +128,15 @@ function RegistrarionContainer({ className }) {
 
       {step === 1 ? (
         <>
-          <p className="subtitle">Шаг 1 из 2 — данные для входа</p>
-          <StepOne register={register} />
+          <p className="subtitle">Шаг 1 из 2</p>
+          <StepOne register={register} onChange={handleChange} />
         </>
       ) : (
         <>
-          <ButtonBack
-            onClick={() => {
-              setStep(1)
-            }}
-          />
-          <p className="subtitle">Шаг 2 из 2 — информация о пользователе</p>
-          <StepTwo register={register} status={status} formError={formError} />
+          <ButtonBack onClick={() => setStep(1)} />
+
+          <p className="subtitle">Шаг 2 из 2</p>
+          <StepTwo register={register} onChange={handleChange} />
         </>
       )}
 
@@ -123,7 +145,7 @@ function RegistrarionContainer({ className }) {
   )
 }
 
-export const Registrarion = styled(RegistrarionContainer)`
+export const Registration = styled(RegistrationContainer)`
   display: flex;
   flex-direction: column;
   gap: 20px;

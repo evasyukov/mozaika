@@ -5,7 +5,7 @@ import styled from "styled-components"
 import { Header } from "./components"
 import {
   Authorization,
-  Registrarion,
+  Registration,
   Profile,
   Project,
   Users,
@@ -31,7 +31,7 @@ export default function Mozaika() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Authorization />} />
-          <Route path="/register" element={<Registrarion />} />
+          <Route path="/register" element={<Registration />} />
 
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/:id" element={<Profile />} />

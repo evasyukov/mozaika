@@ -1,22 +1,33 @@
 import styled from "styled-components"
 import { Input, AuthButton } from "../../../../components"
 
-function StepTwoContainer({ className, register, status, formError }) {
+function StepTwoContainer({
+  className,
+  register,
+  status,
+  formError,
+  onChange,
+}) {
   return (
     <div className={className}>
-      <Input type="text" placeholder="Имя" title="Имя" {...register("name")} />
+      <Input
+        type="text"
+        placeholder="Имя"
+        title="Имя"
+        {...register("name", { onChange })}
+      />
 
       <Input
         type="text"
         placeholder="Фамилия"
         title="Фамилия"
-        {...register("lastName")}
+        {...register("lastName", { onChange })}
       />
 
       <div className="auth-field">
         <label htmlFor="direction">Направление</label>
 
-        <select {...register("direction")}>
+        <select {...register("direction", { onChange })}>
           <option value="" defaultValue="" disabled>
             Выберите направление
           </option>

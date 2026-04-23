@@ -26,9 +26,10 @@ app.use(
   }),
 )
 
-app.use("/api", authRoutes)
-app.use("/api/projects", projectRoutes)
-app.use("/api/profile", userRoutes)
+// TODO: вернуть /api
+app.use("", authRoutes)
+app.use("/projects", projectRoutes)
+app.use("/profile", userRoutes)
 
 import path from "path"
 import { fileURLToPath } from "url"
